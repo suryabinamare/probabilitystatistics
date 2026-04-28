@@ -1,0 +1,109 @@
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+<h1>Introduction</h1> <br>
+<h3 class = "left-aligned">Introduction to Statistical Analysis Application:</h3>
+<p class = "left-aligned">This web application is designed as an interactive learning and computation platform for probability 
+    and statistical inference. It integrates theoretical explanations with visualizations and calculators
+     to help users understand statistical concepts and apply them to real data. Each section of the 
+     application focuses on a specific area of statistics and is accessible through the navigation 
+     sidebar.</p>
+
+<h3 class = "left-aligned">Calculators:</h3>
+<p class = "left-aligned">The Calculators section provides essential tools for computing fundamental statistical quantities. 
+    Users can quickly evaluate summary measures and supporting values that are frequently used across
+     hypothesis testing, confidence interval construction, and distribution-based analysis.</p>
+
+
+
+<h3 class = "left-aligned">Probability Distributions:</h3>
+<p class = "left-aligned">The Distributions module explores commonly used probability distributions, including the Normal (Z), t, 
+Chi-Square, and F distributions. These pages explain the theoretical properties of each distribution
+ and allow users to:</p>
+<ul> 
+    <li> Visualize probability density curves.</li>
+    <li> Compute Z-scores, critical values, and p-values.</li>
+    <li> Understand how parameters such as mean, variance, and degrees of freedom affect distribution shape.</li>
+</ul>
+<p class = "left-aligned">This section supports both conceptual learning and practical inference.</p>
+
+
+
+
+<h3 class = "left-aligned">Central Limit Theorem:</h3>
+<p class = "left-aligned">The Central Limit Theorem is a fundamental concept in statistics that describes the 
+    distribution of sample means. It states that as the sample size increases, the distribution of the sample 
+    means approaches a normal distribution, regardless of the shape of the population distribution.
+    Below you can find an interactive demonstration of the Central Limit Theorem, where you can specify the population 
+    distribution, sample size, and number of samples to visualize how the distribution of sample means evolves.</p>
+</p>
+
+
+
+
+
+
+
+
+
+<h3 class = "left-aligned">Population Means:</h3>
+<p class = "left-aligned">The Population Means section focuses on parameter estimation and hypothesis testing for means under various conditions.
+It includes:</p>
+<ul>
+    <li> One population mean with known variance (Z-test).</li>
+    <li> One population mean with unknown variance (t-test). </li>
+    <li> Two population means assuming equal variances. </li>
+    <li> Two population means assuming unequal variances. </li>
+</ul>
+
+<p class = "left-aligned">Each page combines mathematical derivations, step-by-step procedures, confidence interval construction,
+ hypothesis testing logic, and interactive plots.</p>
+
+
+
+
+<h3 class = "left-aligned">Population Proportions:</h3>
+<p class = "left-aligned">The Population Proportions module addresses inference for categorical data. 
+    Users can construct confidence intervals and perform hypothesis tests for:</p>
+<ul> 
+    <li> A single population proportion. </li>
+    <li> Two population proportions. </li>
+</ul>
+<p class = "left-aligned">These tools demonstrate how normal approximations are applied to proportions 
+    and how conclusions are drawn using test statistics, critical values, and p-values.</p>
+
+
+
+
+
+
+
+<h3 class = "left-aligned">Linear Regression</h3>
+<p class = "left-aligned">The <strong>Linear Regression</strong> module introduces both 
+<strong>descriptive</strong> and <strong>inferential</strong> aspects of regression analysis. 
+Users can explore:</p>
+<ul> 
+    <li> The relationship between variables. </li>
+    <li> Interpretation of regression coefficients. </li>
+    <li>Hypothesis testing for model parameters. </li>
+    <li>Graphical representations of fitted models. </li>
+</ul>
+
+
+
+
+
+<h3 class = "left-aligned">ANOVA:</h3>
+<p class = "left-aligned">The ANOVA section focuses on comparing multiple population means simultaneously.
+     It explains the underlying assumptions, test statistics, and decision-making process used to
+      determine whether group means differ significantly.</p>
+
+
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,397 @@
+{% extends "sidebar.html" %}
+{% block title %} Independence Test {% endblock %}
+{% block content %}
+
+<div class = "wrapper">
+<div class = "container"> 
+
+    <h3>Chi-square Independence Test</h3>
+    <h4 class = "left-aligned">Introduction:</h4>
+    <p class = "left-aligned">
+      We apply a non-parametric test to determine if there is a significant association between two categorical variables.
+      In other words, we want to see if the distribution of one variable differs depending on the category of the other variable.
+      If such association does not exist, we say the two variables are independent.
+      This test is useful when dealing with categorical data, such as survey responses or demographic information.
+   </p>
+   <h4 class = "left-aligned">Example:</h4>
+   <p class = "left-aligned">
+      Suppose we want to test whether there is an association between educational level and diabetes status (diabetic/non-diabetic).
+      Shown below is a contingency table showing cross classification of educational level and diabetes status for a random sample of 1043
+      people in a region. At the 95% significance level, do the data provide sufficient evidence to conclude that there is an 
+      association between the two variables?
+   </p>
+      <div class="table-responsive" style ="margin-top: 20px; margin-bottom: 20px;">
+            <table class="fancy-table">
+              <thead>
+                <tr>
+                  <th> </th>
+                  <th>Less than HS</th>
+                  <th>HS grad</th>
+                  <th>Some college</th>
+                  <th>College grad</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Diabetes</b></td>
+                  <td>28</td>
+                  <td>23</td>
+                  <td>35</td>
+                  <td>20</td>
+                  <td>106</td>
+                </tr>
+                <tr>
+                  <td><b>No diabetes</b></td>
+                  <td>273</td>
+                  <td>137</td>
+                  <td>238</td>
+                  <td> 289</td>
+                  <td> 937</td>
+                </tr>
+                <tr>
+                  <td><b>Total</b></td>
+                  <td>301</td>
+                  <td>160</td>
+                  <td>273</td>
+                  <td>309</td>
+                  <td>1043</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        <div class = "left-aligned" style="font-size:20px;">
+          <ul>
+            <li><b>Null Hypothesis (\(H_0\))</b>: There is no association between educational level and diabetes status.</li>
+            <li><b>Alternative Hypothesis (\(H_1\))</b>: There is an association between educational level and diabetes status.</li>
+          </ul>
+        
+        </div>
+        
+          <h4 class = "left-aligned">Expected Frequencies Table:</h4>
+          <p class = "left-aligned">
+          The expected frequencies can be calculated based on the assumption that the null hypothesis is true. 
+          This involves calculating the row and column totals, and then using these to find the expected frequency for each
+           cell in the table. The expected frequency for each cell is calculated as:
+
+           \[
+           E_{ij} = \frac{(\text{Row Total})_i \times (\text{Column Total})_j}{\text{Grand Total}}
+           \]
+           where \(E_{ij}\) is the expected frequency for cell \((i, j)\), \((\text{Row Total})_i\) is the total for row \(i\), 
+           \((\text{Column Total})_j\) is the total for column \(j\), and \(\text{Grand Total}\) is the total for the entire table.
+            For example, the expected frequency for first row and first column cell is calculated as:
+           \[
+           E_{11} = \frac{(301) \times (106)}{1043} \approx 30.59
+           \]
+            The expected frequency for the second row and first column cell is calculated as:
+           \[
+           E_{21} = \frac{(301) \times (937)}{1043} \approx 270.41
+           \]
+           Continuing this process for all cells in the table will yield the expected frequencies needed for the Chi-square test.
+            The table is given below. 
+                  
+         
+
+
+
+       
+          <div class="tables-container">
+              <div>
+              <h3>Observed Frequencies</h3>
+            <table class = "fancy-table" style = "border-radius: 10px;">
+              
+              <thead>
+                <tr>
+                  <th> </th>
+                  <th>Less than HS</th>
+                  <th>HS grad</th>
+                  <th>Some college</th>
+                  <th>College grad</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Diabetes</b></td>
+                  <td>28</td>
+                  <td>23</td>
+                  <td>35</td>
+                  <td>20</td>
+
+                </tr>
+                <tr>
+                  <td><b>No diabetes</b></td>
+                  <td>273</td>
+                  <td>137</td>
+                  <td>238</td>
+                  <td>289</td>                  
+                </tr>            
+              </tbody>
+            </table>
+            </div>
+          
+            <div>
+              <h3>Expected Frequencies</h3>
+            <table class = "fancy-table" style = "border-radius: 10px;">
+              
+              <thead>
+                <tr>
+                  <th> </th>
+                  <th>Less than HS</th>
+                  <th>HS grad</th>
+                  <th>Some college</th>
+                  <th>College grad</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Diabetes</b></td>
+                  <td>30.590</td>
+                  <td>16.261</td>
+                  <td>27.745</td>
+                  <td>31.404</td>
+
+                </tr>
+                <tr>
+                  <td><b>No diabetes</b></td>
+                  <td>270.409</td>
+                  <td>143.739</td>
+                  <td>245.255</td>
+                  <td>277.596</td>                  
+                </tr>            
+              </tbody>
+            </table>
+            </div>
+          </div>
+
+    <div class = "left-aligned">
+      <p> If educational level and diabetes status are independent, we would expect the observed frequencies to be close to the expected frequencies.
+        We find the sum of square of the deviations between observed and expected frequencies. This value is called the Chi-square statistic. 
+        Bigger differences between observed and expected frequencies will result in a larger Chi-square statistic. 
+      </p>
+        <div class = "tables-container">
+          <div>
+            <b>If we divide each row by the corresponding row sum, we turn each row into a conditional distribution. 
+          For expected frequencies, the conditional distributions are identical across rows. The graph below shows the conditional 
+          distributions across rows of observed and expected frequencies. </br>
+        </b>
+          </div>
+
+        <div style ="text-align: center;">
+        <img src="{{ url_for('static', filename='expected_values.png') }}" 
+        alt="Expected Frequencies" width="600" height="400">  
+        </div>
+
+        </div>
+      </br>
+          <b>  
+            If the variables have no association, the conditional distributions across rows of observed frequencies (left) 
+            should be similar to those of expected frequencies (right).
+          </b>
+
+        And larger chi-square statistics indicate educational level and diabetes status are not independent. 
+        The Chi-square statistic is calculated using the formula:
+        \[
+        \chi^2 = \sum_{i=1}^{r} \sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+        \]
+        where \(O_{ij}\) is the observed frequency for cell \((i, j)\), and \(E_{ij}\) is the expected frequency for cell \((i, j)\).
+        The degrees of freedom (df) for the test is calculated as:
+        \[
+        df = (r - 1) \times (c - 1)
+        \]
+        where \(r\) is the number of rows and \(c\) is the number of columns in the contingency table.
+        In this case, we have 2 rows and 4 columns, so the degrees of freedom is:
+        \[
+        df = (2 - 1) \times (4 - 1) = 3
+        \]
+        The test statistic is given by: 
+        \begin{align*}  &=\frac{(28-30.590)^2}{30.590} + \frac{(23-16.261)^2}{16.261} + \frac{(35-27.745)^2}{27.745} + \frac{(20-31.404)^2}{31.404}
+        + \frac{(273-270.409)^2}{270.409} + \frac{(137-143.739)^2}{143.739} + \frac{(238-245.255)^2}{245.255} + \frac{(289-277.596)^2}{277.596} \\
+        &= 0.219 + 2.769 + 1.896 + 4.122 + 0.024 + 0.312 + 0.213 + 0.450 \\
+        &= 10.074428
+        \end{align*}
+        <ul>
+          <li><b>Degrees of Freedom</b> = 3</li>
+          <li><b>Chi-square Statistic</b> = 10.074428</li>
+          <li><b>P-value</b> = 0.0179</li>
+          <li><b>Significance Level</b> = 0.05</li>
+          <li><b>Critical Value</b> = 7.815</li>
+        </ul>
+        <h3>Conclusion</h3>
+      <ul>
+        <li>Reject the null hypothesis since the p-value (0.0179) is less than the significance level (0.05).</li>
+        <li> <b> OR</b> Reject the null hypothesis since the Chi-square statistic (10.074428) is greater than the critical value (7.815).</li>
+        <li>There is sufficient evidence to conclude that there is an association between educational level and diabetes status.</li>
+      </ul>        
+      </p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style="margin-top:40px;"> 
+      <h3 class = "left-aligned" style="text-align:left;">Practice Yourself: </h3>
+      <p class = "left-aligned" style="text-align:left; font-size: large;">Below you fill in your own data for the Chi-square independence test. You can 
+        provide the data in a tabular format by adding or deleting rows and columns as needed.
+        After entering your data, specify the significance level (α) for the test and click on
+        the "Compute" button to perform the Chi-square independence test. The results will include the Chi-square statistic,
+        p-value, critical value, observed and expected frequency tables, and relevant plots to help you interpret the results.
+      </p>
+
+
+
+
+
+<div id="fitness_test" style="margin-top:20px; background-color:aliceblue;
+     padding:15px; border-radius:10px; text-align:left; margin:auto; width:fit-content;">
+
+
+<h4 style="text-align:left;">Fill in the contigency table:</h4>
+
+<table id="dataTable" border="1">
+    <thead>
+        <tr>
+            <th></th>
+            <th><input value="Col 1" style="width: 150px; border-radius:5px;"></th>
+            <th><input value="Col 2" style="width:150px; border-radius:5px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><input value="Row 1" style="width:150px; border-radius:5px;"></th>
+            <td><input type="number" style="width:150px; border-radius:5px;"></td>
+            <td><input type="number" style="width:150px; border-radius:5px;"></td>
+        </tr>
+        <tr>
+            <th><input value="Row 2" style="width:150px; border-radius:5px;"></th>
+            <td><input type="number" style="width:150px; border-radius:5px;"></td>
+            <td><input type="number" style="width:150px; border-radius:5px;"></td>
+        </tr>
+    </tbody>
+</table> <br> 
+<button onclick="addRow()" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;"> + Add Row</button>
+<button onclick="addColumn()" style = "margin-right:10px;background-color: #95cfdd;border-radius: 5px;"> + Add Col</button>
+<button onclick="deleteRow()" style = "margin-right:10px;background-color: #95cfdd;border-radius: 5px;">Delete Row</button>
+<button onclick="deleteColumn()" style = "margin-right:10px;background-color: #95cfdd;border-radius: 5px;">Delete Col</button>
+<br> <br>
+
+
+<label for="alpha"><strong>Significance Level (α):&nbsp;&nbsp;</strong></label>
+<input type="number" step="any" placeholder="alpha" id="alpha"
+           style="width:100px; border-radius:5px;" /> &nbsp;&nbsp;
+<button onclick="sendTableData()" class = "fancy-button" style = "margin-right:10px;border-radius: 5px;">Upload!</button>
+<br> <br>
+<div id = "loading" style="display:none; color: blue; font-weight:bold;">
+  Uploading / Processing...........
+</div>
+
+<img id="chi2Plot" src="" style="margin-top:20px; max-width:100%; height:auto; border-radius:10px;">
+<img id = "chiPlot" src="" style="margin-top:20px; max-width:100%; height:auto; border-radius:10px;">
+</div> <br>
+
+
+
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+<h3 style="text-align:left;">Your uploaded data:</h3>
+  <p style="text-align:left;">
+  The contingency table based on your input data is shown below. In addition, the row totals, 
+  column totals, and grand total are also displayed.</p>
+  <div id="result"><strong></strong></div>
+</div>
+
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+  <h3 style="text-align:left;">Compute expected frequencies:</h3>
+  <p style="text-align:left;">
+    The expected frequencies table based on your input data is shown below. Each cell's expected 
+    frequency is calculated assuming the null hypothesis of independence is true. Each expected 
+    frequency is computed using the formula:
+    <br><br> \( \displaystyle  \frac{(\text{row total}) \times (\text{column total})}{\text{grand total}} \) </p>
+    <br> <br>
+  <button onclick="showOutput('expected')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Display the table</button>
+  <div id="expected" class="output-box"></div>
+</div>
+
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+  <h3 style="text-align:left;">Conditional distributions across rows:</h3>
+  <p style="text-align:left;">
+    The conditional distributions across rows of observed and expected frequencies are shown below. 
+    Each row is divided by the corresponding row sum to turn each row into a conditional distribution.
+    If the variables are independent (if null hypothesis is true), the conditional distributions 
+    across rows of observed frequencies should be similar to those of expected frequencies.</p>
+    <br> <br>
+    <button onclick="showOutput('plot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Display Conditional Distributions</button> <br> <br>
+    <div id="plot" class="output-box"></div>
+</div>
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+  <h3 style="text-align:left;">Hypothesis test results:</h3>
+  <p style="text-align:left;"> 
+    The results of the Chi-square independence test based on your input data are shown below. 
+    You can view the Chi-square statistic, p-value, critical value, and relevant plots by clicking 
+    the button.</p> <br> <br>
+  <button onclick="showOutput('critical')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Values</button> <br> <br>
+  <div id="critical" class="output-box"></div> 
+</div>
+
+
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+  <h3 style="text-align:left;">Chi-Square Distribution Plot:</h3>
+  <p style="text-align:left;">The plot below shows the Chi-square distribution with 
+    the calculated degrees of freedom, <br> critical value, test statistic, p-value, and 
+    rejection region. </p> <br>
+    <button onclick="showOutput('chi_plot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">
+      Show Chi-Square Plot</button>
+    <br> <br> 
+    <div id="chi_plot" class="output-box"></div>
+ 
+</div>
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/independencetest.js') }}"></script>
+{% endblock %}
+

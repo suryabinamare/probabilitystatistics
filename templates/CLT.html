@@ -1,0 +1,77 @@
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h2>Central Limit Theorem (CLT)</h2>
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li> Understand the concept of the Central Limit Theorem.</li>
+        <li> Choose sample size and number of samples to visualize the sampling distribution of the sample mean when samples are drawn from:
+            <ul>
+                <li> the population with normal distribution.</li>
+                <li> the population with an exponential distribution.</li>
+                <li> the population with a uniform distribution.</li>
+            </ul>
+        </li>
+      
+    </ul>
+
+
+    <h3 class = "left-aligned">Introduction:</h3>
+    <p class = "left-aligned">The Central Limit Theorem (CLT) is a fundamental concept in statistics that describes 
+        the behavior of the sampling distribution of the sample mean. It states that, regardless of the shape of 
+        the population distribution, the sampling distribution of the sample mean will approach a normal 
+        distribution as the sample size increases, provided that the samples are independent and identically 
+        distributed (i.i.d.). Mathemtically, 
+        The random variable, $$Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$$
+        follows a standard normal distribution as the sample size n approaches infinity, where $\bar{X}$ is the sample mean, $\mu$ is the population mean, and $\sigma$ is the population standard deviation.
+        The CLT is crucial because it allows us to make inferences about population parameters using sample statistics, 
+        even when the population distribution is not normal. It forms the basis for many statistical methods, 
+        including hypothesis testing and confidence interval estimation.
+    
+    </p>
+    
+</div>
+</div>
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+<h3 class = "left-aligned">CLT Simulation:</h3>
+    <p class = "left-aligned"> Below, you can choose different population distributions and adjust the sample size and 
+        number of samples to visualize the sampling distribution of the sample mean: </p>
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+            <strong>Population Distribution: <select id="dist_select" style="width: 150px; border-radius: 5px;">
+                <option value="normal">Normal</option>
+                <option value="exponential">Exponential</option>
+                <option value="uniform">Uniform</option> </select></strong> &nbsp;&nbsp;  &nbsp;&nbsp; <br> <br>
+            <strong>Sample size (n) <input type="number" id="sample_size" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong>Number of Samples: <input type="number" id="num_samples" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <br> <br>
+            <button onclick="drawCLTPlot()" class="fancy-button" style="width: 120px; border-radius: 5px;"> Draw </button>    &nbsp;&nbsp;  &nbsp;&nbsp;
+
+    <br> 
+    <div style="margin-top:20px; text-align: center;">
+        <img id="clt-plot" src="" style="width:600px; border-radius:10px; border:1px solid #ccc; margin-top:15px;"/>  
+    </div>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/clt.js') }}"></script>
+{% endblock %}

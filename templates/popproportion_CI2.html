@@ -1,0 +1,206 @@
+{% extends "sidebar.html" %}
+{% block title %}Population Proportion  {% endblock %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: larger;">
+    <h1>Two Population Proportions</h1>
+
+
+     <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Use the sample proportions, \(\hat{p}_1\) and \(\hat{p}_2\), as point estimates for the population proportions, \(p_1\) and \(p_2\).</li>
+        <li>Construct a confidence interval for the difference in population proportions.</li>
+        <li>Perform hypothesis testing for the difference in population proportions.</li>
+    </ul>
+
+
+
+
+    <h3 class = "left-aligned">Introduction:</h3>
+    <p class = "left-aligned">We compare two population proportions, \(p_1\) for population 1 and \(p_2\) for 
+        population 2. We look at the distribution of difference of two sample proportions, \(\hat{p}_1 - \hat{p}_2\),
+        whose value is the point estimate of the \(p_1 - p_2\). 
+        We also estimate the confidence interval for \(p_1 - p_2\) and perform hypothesis testing if \(p_1 = p_2\). 
+        Suppose we have a simple random sample of size \(n_1\) with \(x_1\) successes (or have a 
+        specified attribute) of population 1 and a simple random sample of size \(n_2\) with \(x_2\) successes (or have a 
+        specified attribute) of population 2. So, sample proportions are \(\hat{p}_1 = \frac{x_1}{n_1}\) and \(\hat{p}_2 = \frac{x_2}{n_2}\)
+        <p class = "left-aligned"> For independent samples of large sizes, the probability distribution of \(\hat{p}_1-\hat{p}_2\) is 
+            approximately normal with with mean equal to \(p_1 - p_2\) and the standard deviation equal to 
+            \(\displaystyle \sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}} \).
+        </p>
+        <p class = "left-aligned">
+            So for large and independent samples, the variable 
+            \[z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1-p_2)}{\sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}}}\]
+            follows approximately the standard normal distribution. 
+        </p>
+   
+    <p style = "text-align: left">
+        <h3 class = "left-aligned">  Point Estimate and Confidence Interval: </h3>
+         We use the sample proportions, \(\hat{p}_1\) and \(\hat{p}_2\), as point estimates for the population proportions, 
+         \(p_1\) and \(p_2\).
+         We can construct a confidence interval for the difference in population proportions, \(p_1 - p_2\), 
+         using the following steps:
+    </p>
+    <p>      
+        <ol >
+            <li> Simple random samples and independent samples.</li>
+            <li> Large samples such that \(n_1\hat{p}_1\), \(n_1(1-\hat{p}_1)\), \(n_2\hat{p}_2\), and \(n_2(1-\hat{p}_2)\) are all greater than 5.</li>
+            <li>Calculate the sample proportion \(\hat{p}_1 = \frac{x_1}{n_1}\) and \(\hat{p}_2 = \frac{x_2}{n_2}\).</li>
+            <li>Point estimate of \(p_1 - p_2\) is \(\hat{p}_1-\hat{p}_2\).</li>
+            <li>Determine the critical value, \(z_{\text{crit}} = z_{\alpha/2}\).
+            </li>
+            <li> Standard error, \(se = \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\)</li>
+            <li> Margin of error, \(ME = z_{\text{crit}} \cdot se\)</li>
+            <li>(\(1-\alpha\))% confidence interval: <br> 
+                CI = \( \left((\hat{p}_1-\hat{p}_2) - z_{\alpha/2} \cdot \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}, \quad 
+                (\hat{p}_1-\hat{p}_2) + z_{\alpha/2} \cdot \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\right)\).
+                <br> or </br> CI = \(\qquad \left(\hat{p}_1 - ME,\quad  \hat{p}_1 + ME\right)\)
+            </li>
+        </ol>  
+        <br> <br>  
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+       
+        <h3>Provide the following values to calculate and plot </h3> <br> <br>
+        <strong> Sample size: \(n_1\)</strong> = <input type = "number" id = "n1" value = "30" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <strong> Sample Prop: \(\hat{p}_1\) = </strong> <input type = "number" id = "p1" value = "0.5" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <br> <br>
+        <strong> Sample size: \(n_2\)</strong> = <input type = "number" id = "n2" value = "30" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <strong> Sample Prop: \(\hat{p}_2\) = </strong> <input type = "number" id = "p2" value = "0.5" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <br> <br>
+        <strong> Sig. Level: \(\alpha\) = </strong> <input type = "number" id = "alpha1" value = "0.1" style="width: 100px; border-radius: 5px;" required> <br> <br> 
+        <button onclick = "calculate_ci_twoprop()" class = "fancy-button"  style="width: 200px; border-radius: 5px;">Calculate CI</button>
+        
+        <br><br>
+          
+            <p id="ci-result-proportion2"></p>
+            <img id="proportion2-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">    
+    
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: larger;">   
+<h3 class = "left-aligned"> Hypothesis Testing for two Proportions:  </h3>
+    <p class = "left-aligned">We perform hypothesis testing for a population proportion.
+        We use the z-test to determine whether to reject or fail to reject the null hypothesis, \(H_0\), based on the sample data.
+        The steps involved in hypothesis testing are as follows:</p>
+    <ol style = "font-size: large;"> 
+            <li><strong> Two-tailed Test:</strong> </li>
+            <ul >
+                <li>\(H_0 : \quad p_1 = p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 = 0\) </li>
+                <li>\(H_a : \quad p_1 \neq p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 \neq 0\)    </li>
+            </ul>
+
+            <li><strong> Left-tailed Test:</strong> </li>
+            <ul >
+                <li>\(H_0 : \quad p_1 = p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 = 0\) </li>
+                <li>\(H_a : \quad p_1 < p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 < 0\) </li>
+            </ul>
+
+            <li><strong>Right-tailed Test: </strong></li>
+            <ul >
+                <li>\(H_0 : \quad p_1 = p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 = 0\) </li>
+                <li>\(H_a : \quad p_1 > p_2\) &nbsp; &nbsp; or  &nbsp; &nbsp; \(p_1 - p_2 > 0\) </li>
+            </ul>
+        </ol>
+
+         <h4 class = "left-aligned">Provide the following values:</h4>
+    <div class = "multi-column-list">        
+            <ul>
+                <li> Sample sizes: \(n_1, n_2\) </li> 
+                <li> Sample Proportions: \(\hat{p}_1, \hat{p}_2\) </li>
+                <li> Population Proportions: \(p_1, p_2\) </li>
+                <li> Significance Level: \(\alpha\)</li>
+            </ul>
+    </div>
+
+
+    <h3 class = "left-aligned">We find the following values: </h3>
+        <ul> 
+            <li> Test Statistic: <br> 
+                \(z_{\text{test}}\) = \(\displaystyle \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\frac{p_1(1-p_1)}{n_1} + \frac{p_2(1-p_2)}{n_2}}}\) <br>
+                = \(\displaystyle \frac{(\hat{p}_1 - \hat{p}_2) - 0}{\sqrt{\frac{p(1-p)}{n_1} + \frac{p(1-p)}{n_2}}}\) (under null hypothesis, \(p_1 = p_2\) and \(p\) is the common value of 
+                \(p_1\) and \(p_2\)). <br>
+                = \(\displaystyle \frac{(\hat{p}_1 - \hat{p}_2)}{\sqrt{\frac{p(1-p)}{n_1} + \frac{p(1-p)}{n_2}}}\) <br>
+                where \(p = \displaystyle \frac{n_1\hat{p}_1 + n_2\hat{p}_2}{n_1 + n_2} = \frac{x_1 + x_2}{n_1 + n_2}\) (common proportion under null hypothesis). <br>
+                = \(\displaystyle \frac{(\hat{p}_1 - \hat{p}_2)}{\sqrt{\frac{p(1-p)}{n_1 + n_2}}}\) <br>
+                where \(p = \displaystyle \frac{n_1\hat{p}_1 + n_2\hat{p}_2}{n_1 + n_2} = \frac{x_1 + x_2}{n_1 + n_2}\). <br>
+          </li>
+            <li> Critical Value: \(z_{\text{crit}}\) </li>
+            <li> P-Value: </li>
+                <ul>
+                    <li> \(= P(z < |z_{\text{test}}|) \) = area to the left and right of \(z_{\text{test}}\) (two-tailed test) </li>
+                    <li> \(= P(z > z_{\text{test}}) \) = area to the right of \(z_{\text{test}}\) (right-tailed test)</li>
+                    <li> \(= P(z < z_{\text{test}}) \) = area to the left of \(z_{\text{test}}\) (left-tailed test)</li>
+                   
+                </ul>
+            
+        </ul>
+
+        <h3 class = "left-aligned">Conclusion:</h3>
+        <ul>
+            <li>Do not reject \(H_0\) if \(z_{\text{test}}\) is in the non-rejection region. Else 
+                reject \(H_0\) in favor of alternative hypothesis.
+            </li>
+            <b>OR</b>
+            </br>
+            <li> Do not reject \(H_0\) if P-Value is bigger than \(\alpha\). Else reject \(H_0\) in favor of alternative hypothesis.</li> 
+       </ul>
+
+        <br> <br>
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+       
+        <h3>Provide the following values to calculate and plot </h3> <br> <br>
+        <strong> Sample size: \(n_1\)</strong> = <input type = "number" id = "sample_size1" value = "30" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <strong> Sample Prop: \(\hat{p}_1\) = </strong> <input type = "number" id = "sample_prop1" value = "0.5" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp; <br> <br> 
+         <strong> Sample size: \(n_2\)</strong> = <input type = "number" id = "sample_size2" value = "30" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp;
+        <strong> Sample Prop: \(\hat{p}_2\) = </strong> <input type = "number" id = "sample_prop2" value = "0.4" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp; <br> <br> 
+        <strong> Sig. Level: \(\alpha\) = </strong> <input type = "number" id = "alpha" value = "0.05" style="width: 100px; border-radius: 5px;" required> 
+        <strong> Test Type: </strong>
+        <select id="test_type" style="width: 150px; border-radius: 5px;">
+            <option value="two-tailed">Two-tailed</option>
+            <option value="left-tailed">Left-tailed</option>
+            <option value="right-tailed">Right-tailed</option>
+        </select>
+        <br><br>
+        <button onclick = "calculate_ht_twoprop()" class = "fancy-button"  style="width: 200px; border-radius: 5px;">Calculate Values</button>  
+           
+
+            <p id="proportion-ht2-result"></p>
+            <img id="proportion-ht2-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+    
+    
+    </div>
+            
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/popproportion2.js') }}"></script>
+{% endblock %}

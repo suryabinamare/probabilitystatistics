@@ -1,0 +1,165 @@
+
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h1>Binomial Distribution</h1>     
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Visualize the probability mass function (Histogram) of a binomial distribution for different parameter values.</li>
+      <li> Calculate following probabilities.  
+        <ul> 
+            <li>Calculate the probability of getting at most k successes,  $P(X \leq k) = P(X=0) + P(X=1) + \cdots + P(X=k)$</li>
+            <li> Calculate the probability of getting less than k successes,  $P(X < k) = P(X=0) + P(X=1) + \cdots + P(X=k-1)$</li>
+            <li> Calculate the probability of getting exactly k successes, $P(X = k)$</li>
+            <li> Calculate the probability of getting more than k successes, $P(X > k) = 1 - P(X \leq k)$</li>
+            <li> Calculate the probability of getting at least k successes, $P(X \geq k) = 1 - P(X < k)$</li>
+        </ul>
+        <li> For given values of n and p, find all binomial coefficients. </li>
+      </li>
+            
+    </ul>
+
+    
+        <h3 class = "left-aligned">Introduction:</h3>
+        <p class = "left-aligned">
+            The <b>Binomial Distribution</b> is a discrete probability distribution that models 
+            the number of successes in a fixed number of independent Bernoulli 
+            trials, where each trial has only two outcomes (success or failure)
+            with constant probability of success $p$. It is 
+            characterized by two parameters: the number of trials (n) and 
+            the probability of success in each trial (p). If a random variable $X$
+            represents the number of successes in $n$ trials, then $X$ follows a binomial distribution. 
+            The probability mass function (PMF) of the binomial distribution is given by:
+            $$P(X = k) = C(n,k) \cdot p^k (1-p)^{n-k}$$
+            where $k$ is the number of successes (0 ≤ k ≤ n), and $\displaystyle C(n,k)= \frac{n!}{k!(n-k)!}$ is the binomial coefficient,
+            representing the number of ways to choose $k$ successes from $n$ trials.
+      </p>
+        <p class = "left-aligned" >
+            The mean (expected value) and variance of a binomially distributed random variable $X$ are given by:
+            $$\text{Mean} (\mu) = n \cdot p$$
+            $$\text{Variance} (\sigma^2) = n \cdot p \cdot (1 - p)$$
+            The binomial distribution is widely used in various fields, including statistics, finance, and quality control,
+             to model scenarios involving binary outcomes, such as success/failure, yes/no, or pass/fail situations.
+        </p>
+        
+    </div> <br> <br> 
+
+
+
+ <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+      
+    <h3 class = "left-aligned">Histogram of Binomial Distribution</h3>
+    <p class = "left-aligned">The shape of the binomial distribution curve depends on the values of the parameters n (number of trials) and p (probability of success). 
+    When p = 0.5, the distribution is symmetric around its mean. As p moves away from 0.5, the distribution becomes skewed.
+     For small values of n, the distribution may appear discrete and jagged, while for larger values of n, it approaches a normal distribution shape due to the Central Limit Theorem.
+     
+     The binomial distribution curve represents the probabilities of obtaining different numbers of successes in a fixed number of trials.
+         The height of each bar in the histogram corresponds to the probability of achieving that specific number of successes.
+     In this tool, you can visualize the binomial distribution by adjusting the number of trials (n) and the probability of success (p).</p></br> </br>
+    <div  style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+   
+
+   <b>Number of Trials (n):</b> <input type = "number" id = "num_trials"  value = "10" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+    <b>Prob of Success (p):</b> <input type = "number" id = "prob_success" value = "0.5" step="0.01" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+    <br> <br>
+   
+   
+    <button onclick = "addCurveBinomial()" class = "fancy-button" style="width: 200px; border-radius: 5px;"> Draw Curve </button> &nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick = "resetBinomialPlot()" class = "fancy-button" style="width: 200px; border-radius: 5px;"> Reset </button> 
+    
+    <br>
+    
+    </div>
+    <br> <br>
+    <div style="display: grid;place-items: center;">
+        <img id="binomial-plot" src="" style="text-align:center; width:800px; border-radius: 10px; border:1px solid #ccc;">
+    </div>
+
+
+    
+    </div>
+
+    <br> <br>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+     
+        <h3 class = "left-aligned">Computing coefficients and Probabilities</h3>
+        <p class = "left-aligned">
+            This section allows you to compute the probability of obtaining at most k successes in n trials of a binomial distribution with success probability p.
+            Provide the following values:
+            <ul>
+                <li>Number of Trials (n)</li>
+                <li>Probability of Success (p)</li>
+                <li>Maximum number of successes (k)</li>
+            </ul> </p>
+            <p class = "left-aligned">
+            Click <b>Find Values</b> to:
+            <ul>
+                <li>Compute the probability of getting at most k successes,  $P(X \leq k) = P(X=0) + P(X=1) + \cdots + P(X=k)$</li>
+                <li> Compute the probability of getting less than k successes,  $P(X < k) = P(X=0) + P(X=1) + \cdots + P(X=k-1)$</li>
+                <li> Compute the probability of getting exactly k successes, $P(X = k)$</li>
+                <li> Compute the probability of getting more than k successes, $P(X > k) = 1 - P(X \leq k)$</li>
+                <li> compute the probability of getting at least k successes, $P(X \geq k) = 1 - P(X < k)$</li>
+               
+                <li>Generate the full binomial probability distribution table.
+                 The first column represents the number of successes (k), the second column shows the binomial coefficients $C(n, k)$, 
+                 and the third column provides the probability of getting exactly k successes $P(X = k)$.
+                </li>
+            </ul> 
+        </p>
+
+
+
+
+        <div  style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+                padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+   
+
+            <b>Number of Trials (n):</b> <input type = "number" id = "trials"  value = "10" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+            <b>Prob of Success (p):</b> <input type = "number" id = "prob" value = "0.5" step="0.01" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp; <br> <br>
+            <b>Number of Successes, $k$:</b> <input type = "number" id = "prob_k" value = "5" step="1" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;     
+            <button onclick = "find_prob()" class = "fancy-button" style="width: 200px; border-radius: 5px;"> Find Probabilities </button> &nbsp;&nbsp;&nbsp;&nbsp;
+          
+            <br>
+        </div>
+            <br> <br>
+            <div  id = "probability-result" style="display: grid;place-items: center;">
+        
+            </div>
+                <br> <br>
+            <div  id = "prob-result-container" style="display: grid;place-items: center;">
+        
+            </div>
+        
+
+
+
+     </div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/binomial_distribution.js') }}"></script>
+{% endblock %}

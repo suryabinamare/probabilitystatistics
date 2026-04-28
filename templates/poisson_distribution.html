@@ -1,0 +1,173 @@
+
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h1>Poisson Distribution</h1>     
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+
+
+
+
+     <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Visualize the histogram of the Poisson Distribution for various values of $\lambda$.</li>
+        <li>Find the following probabilities: 
+            <ul>
+                <li>the probability of getting at most k events,  $P(X \leq k) = P(X=0) + P(X=1) + \cdots + P(X=k)$.</li>
+                <li>the probability of getting less than k events,  $P(X < k) = P(X=0) + P(X=1) + \cdots + P(X=k-1)$.</li>
+                <li> the probability of getting exactly k events, $P(X = k).$</li>
+                <li> the probability of getting more than k events, $P(X > k) = 1 - P(X \leq k).$</li>
+                <li> the probability of getting at least k events, $P(X \geq k) = 1 - P(X < k).$</li>
+                <li> Compute the mean and variance of the Poisson distribution (which are all equal to λ).</li>
+            </ul>
+        </li>
+    </ul>
+
+        </li>      
+    </ul>
+    
+        <h3 class = "left-aligned">Introduction:</h3>
+        <p class = "left-aligned">
+            The <b>Poisson Distribution</b> is a discrete probability distribution that models 
+            the number of events occurring in a fixed interval of time or space, assuming 
+            that these events occur independently and at a constant average rate $\lambda$. It is 
+            characterized by a single parameter: the average rate of occurrence $\lambda$. If a random variable $X$
+            represents the number of events in an interval, then $X$ follows a Poisson distribution. 
+            The probability mass function (PMF) of the Poisson distribution is given by:
+            $$P(X = k) = \frac{e^{-\lambda} \lambda^k}{k!}$$
+            where $k$ is the number of events (0 ≤ k < ∞), and $\displaystyle e^{-\lambda}$ is the exponential function.
+      </p>
+        <p class = "left-aligned" >
+            The mean (expected value) and variance of a Poisson-distributed random variable $X$ are given by:
+            $$\text{Mean} (\mu) = \lambda$$
+            $$\text{Variance} (\sigma^2) = \lambda$$
+            The Poisson distribution is widely used in various fields, including statistics, finance, and quality control,
+             to model scenarios involving count data, such as the number of customers arriving at a store or the number of defects in a product.
+        </p>
+        
+    </div> <br> <br> 
+
+       <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+    
+        <h3 class = "left-aligned">Histogram of the Poisson Distribution</h3>
+        <p class = "left-aligned">
+        The shape of the Poisson distribution curve depends on the value of the parameter $\lambda$ (the average rate of occurrence).
+        For small values of $\lambda$, the distribution is skewed to the right, with a higher probability of observing fewer events.
+        As $\lambda$ increases, the distribution becomes more symmetric and approaches a normal distribution. 
+        The histogram of the Poisson distribution represents the probabilities of observing different numbers of events in a fixed interval.
+        </p>
+        <p class = "left-aligned">
+        In this tool, you can visualize the Poisson distribution by adjusting the average rate of occurrence $\lambda$ and observing how the histogram changes accordingly.
+       
+        <div  style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+                padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+   
+
+            <b>Mean (λ):</b> <input type = "number" id = "lambda_plot"  value = "5" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+           <br> <br>   
+        
+            <button onclick = "plot_poisson()" class = "fancy-button" style="width: 200px; border-radius: 5px;"> Display Histogram </button> &nbsp;&nbsp;&nbsp;&nbsp;
+           <br>
+        </div>
+            <br> <br>
+        <div style="display: grid;place-items: center;">
+            <img id="poisson_histogram" src="" style="text-align:center; width:800px; border-radius: 10px; border:1px solid #ccc;">
+        </div>
+               
+               
+      </div> 
+    
+    
+  
+      
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <br> <br> 
+
+
+      <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+     
+        <h3 class = "left-aligned">Computing Probabilities</h3>
+        <p class = "left-aligned">
+            This section allows you to compute various probabilities using  Poisson distribution with mean λ.
+            Provide the following values:
+            <ul>
+                <li>Mean (λ)</li>
+                <li>Value of k (number of events)</li>
+            </ul> </p>
+            <p class = "left-aligned">
+            Click <b>Find Values</b> to:
+            <ul>
+                <li>Compute the probability of getting at most k $P(X \leq k) = P(X=0) + P(X=1) + \cdots + P(X=k)$</li>
+                <li> Compute the probability of getting less than k   $P(X < k) = P(X=0) + P(X=1) + \cdots + P(X=k-1)$</li>
+                <li> Compute the probability of getting exactly k $P(X = k)$</li>
+                <li> Compute the probability of getting more than k $P(X > k) = 1 - P(X \leq k)$</li>
+                <li> compute the probability of getting at least k  $P(X \geq k) = 1 - P(X < k)$</li>
+                <li> Compute the mean, variance, and standard deviation of the Poisson distribution (which are all equal to λ)</li>
+            </ul> 
+        </p>
+
+
+
+
+        <div  style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+                padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+   
+
+            <b>Mean (λ):</b> <input type = "number" id = "lambda"  value = "5" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+           <b>Value of k:</b> <input type = "number" id = "prob_k" value = "5" step="1" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp; 
+            <br> <br>   
+        
+            <button onclick = "find_prob()" class = "fancy-button" style="width: 200px; border-radius: 5px;"> Find Values </button> &nbsp;&nbsp;&nbsp;&nbsp;
+          
+            <br>
+        </div>
+           <br> <br>
+            <div  id = "prob-result-container" style="display: grid;place-items: left;padding-left: 250px;font-size: larger;
+            font-weight: 200;font-family: Arial, sans-serif;font-style: bold;">
+            </div>
+              
+            
+            <div  id = "probability-result" style="display: grid;place-items: center;">
+        
+            </div>
+             
+            
+               
+      </div> 
+    
+
+</div>
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/poisson.js') }}"></script>
+{% endblock %}

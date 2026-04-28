@@ -1,0 +1,191 @@
+{% extends "sidebar.html" %}
+{% block title %}Descriptive Values Calculator{% endblock %}
+{% block content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- File Upload Form -->
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+
+    <h2>Descriptive Values Calculator</h2>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li> Find the summary statistics of the selected column.</li>
+        <li> Visualize the data using box-plot, normal probability plot, and histogram.</li>
+      
+    </ul>
+
+
+
+        <h4 class = "left-aligned">Introduction:</h4>
+        <p class = "left-aligned;" style = "padding-left:40px;">
+            We conduct exploratory data analysis by allowing users to upload an Excel file containing 
+            the dataset. Using visualization tools and statistical computations, we analyze the data 
+            to reveal underlying patterns. Graphical representations such as scatter plots, box plots, 
+            normal probability plots, and histograms are generated to aid interpretation. In addition, 
+            key summary statistics—including the mean, sample standard deviation, and quartiles—are 
+            provided for comprehensive data insight.
+            
+        </p> 
+        
+    </div>  <br> <br>
+
+
+
+
+
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h4 class = "left-aligned">Upload File: </h4>
+        <p class = "left-aligned;" style = "padding-left:40px;">
+            Upload a spreadsheet file in CSV or XLSX format. The file may contain multiple columns. 
+            After uploading, you can select a specific column to perform various computations
+        </p>
+        <input type="file" id="fileInput" style = "padding-left:40px;" required>
+        <button type="button" onclick="uploadFile()" class="fancy-button" style="margin-left:40px; width: 200px; border-radius: 5px;">Upload!</button>
+        
+        <div id="uploadOutput" style="margin-left:45px; margin-top:20px;"></div>
+        <div id="columnSelectArea" style="margin-left:45px; margin-top:20px;"></div>
+     </div>
+
+        <!-- BUTTON COLUMN -->
+     <br> <br>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        
+        <h4 class = "left-aligned">Statistical Values: </h4>
+        <p class = "left-aligned;" style = "padding-left:40px;">
+           For the selected column, we compute a comprehensive set of descriptive statistics to 
+           summarize the data. The sample size represents the total number of observations in the dataset. 
+           The sample mean provides the average value, while the sample variance and sample standard 
+           deviation measure the variability and spread of the data around the mean. In addition, 
+           we report the minimum and maximum values to indicate the data range. Quartile statistics—including 
+           the first quartile (Q1), median (Q2), and third quartile (Q3)—are calculated to describe 
+           the distribution and central tendency of the data, helping identify skewness, spread, and 
+           potential outliers. These summary measures provide a concise numerical overview of the dataset’s
+            key characteristics.
+        </p>
+        <ul>
+            <li>Sample size (n)</li>
+            <li>Sample mean, \(\bar{x} = \displaystyle\frac{1}{n}\sum_{i=1}^{n}x_{i}\)</li>
+            <li>Sample variance, \(s^2 = \displaystyle \frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}
+                = \displaystyle \frac{n\sum_{i=1}x_i^2 - (\sum_{i=1}x_i)^2}{n(n-1)}\)</li> 
+            <li>Sample standard deviation, \(s = \displaystyle\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-\bar{x})^{2}}\)</li>
+            <li>Minimum value</li>
+            <li>25% percentile (Q1)</li>
+            <li>50% percentile (Median, Q2)</li>
+            <li>75% percentile (Q3)</li>
+            <li>Maximum value</li>
+        </ul>
+    
+        <button onclick="showMean()" class="fancy-button" style="margin-left:50px; width: 250px; border-radius: 5px;">Show Statistical Values</button>
+        <div id="meanOutput" style="margin-left:45px; margin-top:20px;"></div>
+    </div>
+
+    <br> <br>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h4 class = "left-aligned">Box-plot: </h4>
+        <p class = "left-aligned;" style = "padding-left:40px;">
+            A box plot is a concise graphical tool used to summarize the distribution of a dataset by 
+            highlighting its central tendency, variability, and overall spread. It is based on five key
+             statistics: the minimum value, first quartile (Q1), median, third quartile (Q3), and maximum value. 
+             The box itself represents the interquartile range (IQR), which contains the middle 50% of the
+              data, while the line inside the box indicates the median. Lines known as “whiskers” extend
+               from the box to show the range of the data excluding extreme values, and points plotted beyond
+                the whiskers represent potential outliers. Box plots are especially useful for comparing 
+                multiple datasets side by side, assessing skewness, detecting unusual observations, and 
+                gaining quick insights into data variability
+
+        </p>  
+        <button onclick="showBoxplot()" class="fancy-button" style="margin-left:40px; width: 200px; border-radius: 5px;">Show Boxplot</button>
+        <div id="boxplotOutput" style="margin-left:45px; margin-top:20px;"></div>
+    </div>
+
+    <br> <br>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h4 class = "left-aligned">Normal Probability Plot: </h4>
+        <p class = "left-aligned;" style = "padding-left:40px;"> 
+           A normal probability plot, also known as a Q–Q plot, is a graphical method used to evaluate
+            whether a dataset can be reasonably modeled by a normal distribution. This is done by comparing
+             the ordered sample observations with the corresponding theoretical quantiles from a standard 
+             normal distribution. If the data are approximately normally distributed, the plotted points 
+             will align closely along a straight line; systematic departures from linearity indicate 
+             skewness, heavy tails, or the presence of outliers. </p>
+        <p class = "left-aligned;" style = "padding-left:40px;">
+            To construct the plot, the sample data are first arranged in increasing order, denoted as 
+            \(x_{(1)}, x_{(2)}, \dots, x_{(n)}\)
+        Each ordered observation \(x_{(i)}\) is then paired with a theoretical normal quantile 
+        \(z_i\), forming points of the form \(\left(z_i, x_{(i)} \right)\) for \(i = 1, 2, \dots, n\). The 
+        theoretical quantiles are calculated using  
+        \[z_i = \phi^{-1}\left(\frac{i - 0.5}{n}\right)\]
+        where \(\phi^{-1}\) denotes the inverse cdf of the standard normal distribution. By visually 
+        comparing the plotted points to a reference line, the normal probability plot provides an 
+        intuitive and effective way to assess normality and identify deviations from the assumed distribution.
+        </p>
+        
+        <button onclick = "showNormalplot()" class = "fancy-button" style="margin-left:40px; width: 200px; border-radius: 5px;">Show Normal Plot</button>
+        <div id="normalplotoutput" style="margin-left:45px; margin-top:20px;"></div>
+    </div>
+
+    <br> <br>
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h4 class = "left-aligned">Histogram: </h4>
+        <p class = "left-aligned;" style = "padding-left:40px;"> 
+            The shape of a histogram provides valuable insight into the distributional characteristics 
+            of a dataset. For instance, a bell-shaped histogram often suggests that the data may approximately 
+            follow a normal distribution, while a right-skewed histogram indicates a concentration of smaller 
+            values with a longer tail extending toward larger values. Similarly, a left-skewed histogram
+             reflects many larger values and relatively few smaller ones. The presence of multiple peaks
+              may indicate multimodality or the existence of subgroups within the data. In addition, 
+              the choice of bin width plays a crucial role in interpretation, as bins that are too wide 
+              can obscure important features, whereas bins that are too narrow may introduce unnecessary
+               noise.</p>
+        <button onclick = "showHistogram()" class = "fancy-button" style="margin-left:40px; width: 200px; border-radius: 5px;"> Show Histogram </button>
+        <div id = "histogramoutput" style="margin-left:45px; margin-top:20px;"></div>
+    </div>
+
+</div>
+
+</div>
+
+
+
+
+   
+
+{% endblock %}
+
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/script_statvalues.js') }}"></script>
+{% endblock %}

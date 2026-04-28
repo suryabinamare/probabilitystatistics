@@ -1,0 +1,140 @@
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h1>F-Distribution</h1>
+
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Visualize the density curve of F-Distribution for various degrees of freedom.</li>
+        <li>Find the p-value corresponding to a given F-score and degrees of freedom.</li>  
+        <li>Find the F-score corresponding to a given p-value and degrees of freedom.</li>    
+    </ul>
+
+
+
+
+
+
+
+    <h3 class = "left-aligned">Introduction:</h3>
+    <p class = "left-aligned">The F-distribution is used primarily in analysis of variance (ANOVA) and regression analysis to 
+        compare variances and test hypotheses about the equality of means across multiple groups. It is characterized by 
+        two parameters: the degrees of freedom for the numerator (dfn) and the degrees of freedom for the denominator (dfd). 
+        The F-distribution is right-skewed and takes only non-negative values.</p>
+    <ol> 
+        <li> <strong>F-score:</strong> The value of the F-statistic you want to evaluate. This value 
+            is plotted along the horizontal axis as the red dot.
+        </li>
+        <li> <strong>P-value:</strong> The probability of observing a value as extreme as the F-score. This value 
+            represents the area under the curve to the right of the F-score and is shaded blue in the plot.
+        </li>
+    </ol>
+</div>
+</div>
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+<h3 class = "left-aligned">Shape of the F-Distribution</h3>
+    <p class = "left-aligned">The shape of the F-distribution depends on the degrees of freedom for the numerator (dfn) and the denominator (dfd). As the degrees of freedom increase, 
+    the distribution becomes more symmetric and approaches a normal distribution. Below you can see the F-distribution for different degrees of freedom.</p>
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+            <strong>dfn: <input type="number" id="df1_plot" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong>dfd: <input type="number" id="df2_plot" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <br> <br>
+            <button onclick="drawFDistribution()" class="fancy-button" style="width: 120px; border-radius: 5px;"> Draw </button>    &nbsp;&nbsp;  &nbsp;&nbsp;
+            <button onclick = "resetFPlot()" class="fancy-button" style="width: 120px; border-radius: 5px;"> Reset </button>
+
+    <br> 
+    <div style="margin-top:20px; text-align: center;">
+        <img id="f-plot" src="" style="width:600px; border-radius:10px; border:1px solid #ccc; margin-top:15px;"/>  
+    </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h4 class = "left-aligned"> Find p-value:  </h4>
+    <ul> 
+        <li> Provide F-score, degree of freedom for numerator (dfn) and denominator (dfd) to find P-value. P-value 
+            represents the area under the curve to the right of the F-score and is shaded blue in the plot.</li>
+   </ul>
+        </b></li>
+   </ul>
+
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+            <strong>F-score: <input type="number" id="fscore_input" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong> dfn: <input type="number" id="df1_input" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong> dfd: <input type="number" id="df2_input" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <br> <br>
+       
+            <button onclick="calculateFDistribution()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Calculate P-value </button>    &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;          
+           <br> 
+            
+        <div id = "p-value-result"> <br> </div>
+        <img id="p-value-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+         
+       
+            
+    </div>
+       
+    
+
+
+
+    <br> <br>
+    <h4 class = "left-aligned">Find F value: </h4>
+    <ul> 
+        <li> Provide P-value, degree of freedom for numerator(dfn) and denominator(dfd) to find F-score. 
+            F-score is plotted along the horizontal axis as the red dot.
+        </li>
+    </ul>
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+            <strong>P-value: <input type="number" id="pvalue_input1" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong> dfn: <input type="number" id="df1_input1" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <strong> dfd: <input type="number" id="df2_input1" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <br> <br>
+           
+            <button onclick="calculateFValue()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Calculate F-value </button>    &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;
+           
+           <br> 
+         
+    
+      <div id = "f-value-result"> <br> </div>
+        <img id="f-value-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+         
+    </div>
+              
+</div>
+</div>
+       
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/fdistribution.js') }}"></script>
+{% endblock %}

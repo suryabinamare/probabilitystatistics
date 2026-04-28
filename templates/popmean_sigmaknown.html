@@ -1,0 +1,279 @@
+{% extends "sidebar.html" %}
+{% block title %}One Population Mean{% endblock %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+<h2><strong>One Population Mean</strong> <br>
+    (known variance)</h2>
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Calculate confidence Interval (CI) for the population mean, $\mu$</li>
+        <li> Calculate required sample size for a given margin of error and confidence level</li>
+        <li>Perform hypothesis testing for the population mean, $\mu$
+            <ol>
+                <li>If $\mu = \mu_0$, two-tailed test</li>
+                <li>If $\mu < \mu_0$, left-tailed test</li>
+                <li>If $\mu > \mu_0$, right-tailed test</li>
+            </ol>
+        </li>
+            
+    </ul>
+
+
+
+
+ <h3 class = "left-aligned">Introduction:</h3>
+    
+<p class = "left-aligned">We consider a population with unknown mean $\mu$ and known standard deviation $\sigma$. 
+    We estimate the population mean and find a confidence interval. Then, we find various values related 
+    to hypothesis testing concerning \(\mu\). We perform these analyses under the 
+    assumption that the population standard deviation,
+\(\sigma\), is known.</p>
+<ol style = "font-family: 'times New Roman', Times, serif; font-size: large; text-align: left;"> 
+    <li> <b>Parameter Estimation:</b> The sample mean is used to estimate the population mean. It is an unbiased estimator
+        of \(\mu\) with a standard error of \( \frac{\sigma}{\sqrt{n}} \), where \(n\) is the sample size. Sometimes finding a range of 
+    values is more important than a single point estimate. This is done by constructing a confidence interval in which the parameter lies.
+    </li>
+    <li> <b>Hypothesis Testing:</b> We test hypotheses about the population mean using the Z-test when \(\sigma\) is known. The null hypothesis, \(H_0\), 
+        typically states that the population mean is equal to a specific value, \(\mu_0\). The alternative hypothesis, \(H_a\), 
+        can be two-tailed or one-tailed, depending on the research question.
+
+</ol>
+  
+</div>
+</div>
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h4 class = "left-aligned"> Confidence Interval (CI)</h4>
+    <p class = "left-aligned"> Using sample data and population standard deviaiton, we construct (1-\(\alpha\))100% confidence interval for the population mean, \(\mu\).
+        If the significance level, \(\alpha\) is 0.05, then we are (1-0.05)100% = 95% confident that the interval contains the true population mean, \(\mu\).
+        We interpret this as if we were to take many samples and construct confidence intervals for each sample, approximately 95% of those intervals would 
+        contain the true population mean, \(\mu\). <br> <br>
+
+
+    <b>To construct the confidence interval (two-sided), we use the following steps:</b></p>      
+    <p class = "left-aligned">
+        <ul>
+                <li> $\sigma$ = Population standard deviation given. </li>
+                <li> $\bar{x}$ =Sample mean calculated from the sample data. </li>
+                <li> $n$ = Sample size is the number of observations in the sample. </li>
+                <li> $\alpha$ = Significance level.   </li>
+                <li> $z_{\alpha/2}$ = critical value for $\alpha$. </li>
+        </ul> </p>
+        <p class = "left-aligned">
+       <b> Then, we calculate the confidence interval using the formula:</b></p>
+    <p class = "left-aligned">
+        <ul> 
+            <li> $ \displaystyle CI = \left[\bar{x} - z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}, \quad \bar{x} + z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}\right] $
+             </li>
+            <li> Margin of Error (ME) is given by: <br>
+        $ ME = \displaystyle z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} $   <br>      
+        Thus, the CI can also be expressed as:</li>
+       <li> $\displaystyle CI = \left[\bar{x} - ME, \quad \bar{x} + ME\right] $</li>
+        </ul>
+    </p>
+       
+        <br>
+      
+    
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+        <label for="mu0"><h4>Provide the following values to calculate and plot CI:</h4></label> <br><br>
+        <strong> $\bar{x}$ = </strong><input type = "number"  id = "mu0" value = "0" style="width: 100px; border-radius: 5px;"> &nbsp; &nbsp;&nbsp; &nbsp;
+        <strong> $\sigma $ = </strong><input type = "number"  id = "sigma_ci" value = "1" style="width: 100px; border-radius: 5px;"> &nbsp; &nbsp;&nbsp; &nbsp;
+        
+        <strong> $\alpha$ = </strong><input type = "number"  id = "alpha_ci" value = "0.05" style="width: 100px; border-radius: 5px;"> &nbsp; &nbsp;<br><br>
+        <strong> $n$: </strong><input type = "range" min="1" max="1000" id = "n" value = "30" style="width: 400px;"> 
+            <span id="samplesize">30</span>
+        <br><br>
+        <button  id = "calculate-btn" onclick="calculateCI()" class = "fancy-button" style="width: 200px; border-radius: 5px;">Calculate CI and ME </button>
+        
+        <br><br>
+        
+        <p id="ci-result"></p>
+        <img id="ci-plot" src="" style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
+    <br><br>
+
+
+
+
+<h3 class = "left-aligned">  Margin of Error and Sample size:</h3>
+<p class = "left-aligned"> The margin of error (ME) represents the maximum expected difference between the sample mean 
+    and the true population mean within a specified confidence level.
+    Smaller margin of error indicates a more precise estimate of the population mean, while a larger margin of error indicates less precision.
+     <br> 
+     $ ME = z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} $ <br> 
+    Solving this equation for \(n\), we get <br>   
+    $ n = \displaystyle \left( \frac{z_{\alpha/2} \cdot \sigma}{ME} \right)^2 $ <br>
+    This formula allows us to calculate the required sample size, \(n\), to achieve a desired margin of error, \(ME\), 
+    at a given confidence level, \(\alpha\).
+    </p>
+   
+        <div  style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+        <label for="mu0"><h4>Provide the following values to find $n$</h4></label> <br><br>
+        <strong> $\sigma$ = </strong><input type = "number"  id = "sigma_me" value = "1" style="width: 100px; border-radius: 5px;"> &nbsp; &nbsp;&nbsp; &nbsp;
+        <strong> $\alpha$ = </strong><input type = "number"  id = "alpha_me" value = "0.05" style="width: 100px; border-radius: 5px;"> &nbsp; &nbsp;
+        <strong>   $ME$ = </strong><input type = "number"  id = "me" value = "0.1" style="width: 100px; border-radius: 5px;"><br> <br>
+        <button onclick="calculateSampleSizeKnown()" class = "fancy-button" style="width: 250px; border-radius: 5px;">Calculate Sample Size</button>
+
+        <br><br>
+        <h4> Required Sample Size (n): </h4> 
+        <p id="me-n-result"></p>
+        </div>
+
+   
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h3 class = "left-aligned">Hypothesis Testing:</h3>
+    <p class = "left-aligned">We perform hypothesis testing for a population mean when the population standard deviation, \(\sigma\), is known.
+        We use the Z-test to determine whether to reject or fail to reject the null hypothesis, \(H_0\), based on the sample data.
+        <h4 class = "left-aligned">Provide the following values:</h4>
+        <div>        
+            <ul>
+                <li> \(\bar{x}\) = Sample mean </li> 
+                <li> \(\mu_0\) = Population mean </li>
+                <li> \(n\) = Sample size </li>
+                <li> \(\sigma\) = Population standard deviation </li>
+                <li> \(\alpha\) = Significance level </li>
+            </ul>
+        </div>
+        <h4 class = "left-aligned">We perform the following testings:</h4>
+        <ol> 
+            <li>Two-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu \neq \mu_0\)</li>
+            </ul>
+            We find the following values for two-tailed test:
+            <ul>
+                <li> Test Statistic, \(Z\) = \( \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \) </li>
+                <li> P-value: \( P(z > |Z|) \) (area under the curve in both tails beyond \(\pm |Z|\))</li>
+                <li>Critical Value: \(\pm z_{\alpha/2}\)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \(\left(\mu_0 - \frac{\sigma}{\sqrt{n}}z_{\alpha/2}, \quad \mu_0 + \frac{\sigma}{\sqrt{n}}z_{\alpha/2}\right)\)</li>
+                <li> Non - rejection Region for \(Z\): 
+                    \(\left(-z_{\alpha/2}, \quad z_{\alpha/2}\right)\)</li> </ul>
+
+            <li>Left-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu < \mu_0\)</li>
+            </ul>
+            We find the following values for left-tailed test:
+            <ul>
+                <li> Test Statistic, \(Z\) = \( \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \) </li>
+                <li> P-value: \( P(Z > z) \) (area under the curve to the left of \(Z\))</li>
+                <li>Critical Value: -\( z_{\alpha} \)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \( \left(\mu_0 - \frac{\sigma}{\sqrt{n}}z_{\alpha}, \quad \infty \right) \)</li>
+                <li> Non - rejection Region for \(Z\): 
+                    \( \left(-z_{\alpha}, \quad \infty \right) \)</li> </ul>
+
+            <li>Right-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu > \mu_0\)</li>
+            </ul>
+            We find the following values for right-tailed test:
+            <ul>
+                <li> Test Statistic, \(Z\) = \( \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \) </li>
+                <li> P-value: \( P(Z < z) \) (area under the curve to the right of \(Z\))</li>
+                <li>Critical Value: \( z_{\alpha} \)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \( \left( -\infty, \quad \mu_0 + \frac{\sigma}{\sqrt{n}}z_{\alpha} \right) \)</li>
+                <li> Non - rejection Region for \(Z\): 
+                    \( \left( -\infty, \quad z_{\alpha} \right) \)</li> </ul>
+        </ol> </p>
+        <p class = "left-aligned">
+            We also visualize the results of hypothesis testing by plotting the sampling distribution of the sample mean under the null hypothesis, \(H_0\). 
+            We shade the rejection region(s) based on the type of test and indicate the position of the sample mean, \(\bar{x}\), on the plot. 
+            This helps us understand how extreme our sample mean is in relation to the null hypothesis and whether it falls within the rejection region.
+        </p>
+    
+        <br><br>
+    <div   style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+        <h3>Provide the following values: </h3> <br> 
+               
+               $\bar{x}$ = <input type="number" id="sample_mean" name="sample_mean" style="width: 150px; border-radius: 5px;" value="" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                     
+                $\mu_0$ = <input type="number" id="population_mean" name="population_mean" style="width: 150px; border-radius: 5px;" value="" required> <br> </br>
+                           
+               $n$ = <input type="number" id="sample_size" name="sample_size" style="width: 150px; border-radius: 5px;" value="" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         
+                $\sigma$ = <input type="number" id="sigma" name="sigma" style="width: 150px; border-radius: 5px;" value="" required> <br> </br>
+                            
+                $\alpha$ = <input type="number" id="alpha" name="alpha" style="width: 150px; border-radius: 5px;" value="" required>  &nbsp;&nbsp;
+                
+                <label> Test Type: </label>
+                <select name = "Type" id = "Type" required style = "width: 150px; border-radius: 5px;">
+                    <option value="two-tailed" >Two-tailed</option>
+                    <option value="left-tailed" >Left-tailed</option>
+                    <option value="right-tailed">Right-tailed</option>
+                </select>
+        
+                </br> <br>
+        
+            <input type="submit" onclick="hypothesis_testing_sigmaknown()" class = "fancy-button" style="width: 200px; border-radius: 5px;" value="Click to Display Values">     
+            
+       <br>  
+            
+        <p id = 'ht-table'></p> <br>
+        <img id="ht-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+    </div>
+       
+<br><br>
+<h3 class = "left-aligned">Interpretation of Results:</h3>
+<ul>
+    <li> If the sample mean, \(\bar{x}\), falls within the non-rejection region, we fail to reject the null hypothesis, \(H_0\).
+         This means that there is not enough evidence to support the alternative hypothesis, \(H_a\).</li>
+    <li> If the sample mean, \(\bar{x}\), falls within the rejection region, 
+        we reject the null hypothesis, \(H_0\). This indicates that there is sufficient 
+        evidence to support the alternative hypothesis, \(H_a\).</li>
+    <li> The p-value helps us understand the strength of evidence against the null hypothesis. 
+        A smaller p-value indicates stronger evidence against \(H_0\).</li>
+    <li> The critical value(s) define the threshold(s) for rejecting \(H_0\). If our test statistic 
+        exceeds these critical value(s), we reject \(H_0\).</li>
+</ul>
+
+
+
+</div>   
+</div>
+
+     
+
+
+
+    
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/popmean.js') }}"></script>
+{% endblock %}

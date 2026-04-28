@@ -1,0 +1,40 @@
+{% extends "sidebar.html" %}
+{% block content %}
+<div class = "wrapper">
+<div class="container">
+
+  <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+           
+    <h2 style = "text-align:center;">Contact Us</h2>
+
+    <form method="POST" action="{{url_for("contact.contact_form")}}">
+        <label>Name:</label>
+        <input type="text" name="name" required><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label>Message:</label>
+        <textarea name="message" rows="5" required></textarea><br>
+
+        
+        <button type = "submit" style = "margin-left:45px; margin-right:10px;background-color: #95cfdd; 
+        border-radius: 5px;">Send</button>
+            
+    </form>
+
+  </div>
+</div>
+</div>
+
+{% if success %}
+<p style="color:green;">Message sent successfully!</p>
+{% endif %}
+
+
+
+
+
+
+{% endblock %}

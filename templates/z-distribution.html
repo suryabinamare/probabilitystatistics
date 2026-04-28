@@ -1,0 +1,264 @@
+
+
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h1>Normal Distribution</h1>     
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Visualize the density curve of a normal distribution for different parameter values, mean and standard deviation.</li>
+        <li> For a normally distributed random variable with any mean and any standard deviation, find the probability that
+            <ul>
+                <li>it assumes value less than a specified value.</li>
+                <li>it assumes value greater than a specified value.</li>
+                <li>it assumes value between two specified values.</li>
+            </ul>
+        </li>
+        <li>For the standard normal distribution, $z$ find the probability that 
+            <ul>
+                <li>$z$ assumes value less than a specified value.</li>
+                <li>$z$ assumes value greater than a specified value.</li>
+                <li>$z$ assumes value between two specified values.</li>
+            </ul>
+        </li>
+        <li>For the standard normal distribution, $z$ find the z-score corresponding to a given probability, $p$
+            <ul>
+                <li>When $p$ is the area to the left of the z-score.</li>
+                <li>When $p$ is the area to the right of the z-score.</li>
+            </ul>    
+        </li>
+        
+            
+    </ul>
+
+
+    
+        <h3 class = "left-aligned">Introduction:</h3>
+        <p class = "left-aligned">
+        The  normal distribution is a continuous probability distribution that is symmetric about its mean. Its density curve is 
+        bell-shaped and symmetric about its mean. The total area under the probability density 
+        curve equals 1, mathematically if $f(x)$ is the probability density function, then $\int_{-\infty}^{\infty} f(x) dx = 1$. 
+        the normal distribution is characterized by two parameters: the mean (μ) and the standard deviation (σ). 
+        The mean determines the center of the distribution, while the standard deviation controls the spread of the distribution. 
+        The normal distribution is widely used in statistics and various fields to model real-world phenomena, such as heights,
+         test scores, and measurement errors. It serves as a fundamental building block for many statistical methods and 
+         inference techniques.
+        </p>
+
+    </div> <br> <br> 
+
+
+
+ <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+      
+    <h3 class = "left-aligned">Shape of the Density Curve:</h3>
+    <p class = "left-aligned">The probability density function of a normal distribution with mean $\mu$ and standard deviation $\sigma$ is given by:
+$$f(x) =\displaystyle  \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
+The graph of this density function is bell-shaped and symmetric around its mean. The mean (μ) determines the center of the curve, 
+while the standard deviation (σ) controls its spread. Larger standard deviations result in wider curves, and smaller values produce 
+narrower curves. No matter what the shape of the curve is, the area under the curve is always 1. 
+This is mathematically expressed as $\int_{-\infty}^{\infty} f(x) dx = 1$ <br> <br>
+ Below you can draw and compare multiple normal distribution density curves by adjusting the mean and standard deviation values. </p></br> </br>
+
+    <div  style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+    <b>Mean (μ):</b> <input type = "number" id = "mean"  value = "0" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+    <b>Std Dev (σ):</b> <input type = "number" id = "std" value = "1" style="width: 100px; border-radius: 5px;" required> &nbsp;&nbsp;
+    <br> <br>
+    
+    <button onclick = "addCurve()" class = "fancy-button" style="width: 150px; border-radius: 5px;"> Draw Curve </button> &nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick = "resetPlot()" class = "fancy-button" style="width: 150px; border-radius: 5px;"> Reset </button>
+   
+    <br> <br>
+
+    <div style="display: grid;place-items: center;"></div>
+        <img id="plot" src="" style="text-align:center; width:600px; border-radius: 10px; border:1px solid #ccc;">
+    </div>
+    </div>
+
+    <br> <br>
+
+
+
+
+
+
+ <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h3 class = "left-aligned">Find Probabilities:</h3>
+            <p class = "left-aligned">This section allows you to compute probabilities for a normal random 
+                variable $X$ with mean μ and standard deviation σ.
+        <p class = "left-aligned">Below you provide the mean, standard deviation, and a value $a$ of $X$ to compute the following probabilities: <br>
+          
+            <ul>
+                <li>Mean (μ)</li>
+                <li>Standard Deviation (σ)</li>
+                <li>Value of $X$</li>
+            </ul> </p>
+        <p class = "left-aligned"> Click <b>Find Probabilities</b> to compute the following probabilities:
+            <ul>
+                <li> Compute the probability of random variable X getting less than $a$,   
+                    <br> $P(X < a) = \displaystyle \int_{-\infty}^{a} f(x) dx$</li>           
+                <li> Compute the probability of random variable X getting more than $a$,
+                    <br> $P(X > a) = \displaystyle \int_{a}^{\infty} f(x) dx = 1 - P(X < a)$</li>
+                <li> Compute the probability of random variable X getting between two values a and b, 
+                     <br> $P(a < X < b) = \displaystyle \int_{a}^{b} f(x) dx = P(X < b) - P(X < a)$
+                    <ul>
+                        <li> Find $P(X < b) $ </li>
+                        <li> Find $P(X < a)$</li>
+                        <li> Subtract the two probabilities to find $P(a < X < b)$</li>
+                    </ul>
+                    </li>
+              
+            </ul>
+        </p> </br>
+        
+        <div style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+            padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;"
+        
+            <br>
+            <strong>Mean (μ):</strong> <input type="number" id = "mu"  step="any" style="width: 100px; border-radius: 5px;"> &nbsp;&nbsp; 
+            <strong>Std Dev (σ):</strong> <input type="number" id = "sigma"  step="any" style="width: 100px; border-radius: 5px;">&nbsp;&nbsp;
+            <strong>X value:</strong> <input type="number" id = "x-value"  step="any" style="width: 100px; border-radius: 5px;"><br> 
+            <br> <br>
+            <button  type = "button" onclick = "findProbabilities()" class = "fancy-button" style="width: 200px; border-radius: 5px;">Find Probabilities:</button>       
+            <br>
+            <div id = "zp-results1">
+           </div> 
+            <img id="prob_values" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+            
+        </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<br> <br>
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+        <h3 class = "left-aligned">Standard Normal Distribution</h3>
+        <p class = "left-aligned">The normal distribution with mean 0 and standard deviation 1 is called the 
+            standard normal distribution. It is denoted by $Z$ and has the following probability density function:
+            $$f(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{2}}$$
+            The standard normal distribution is a special case of the normal distribution and serves as a reference distribution
+            for standardizing normal random variables. Any normal random variable $X$ with mean μ and standard deviation σ can be
+            transformed into a standard normal random variable $Z$ using the formula:
+            $$Z = \frac{X - \mu}{\sigma}$$
+            This transformation allows us to compute probabilities and percentiles for any normal distribution using the 
+            standard normal</p>
+            <p class = "left-aligned">               
+                The standard normal distribution is widely used in hypothesis testing, confidence intervals,
+                 and various statistical analyses. In all of these applications, we often need to find probabilities 
+                 associated with the standard normal distribution. We also need to find the z-score corresponding to a 
+                 given probability or percentile. Below you can compute these values and visualize them on the standard 
+                 normal curve. </p>
+         
+       
+        <br></br>
+        <h4 class = "left-aligned">Find p-value for a given z-score:</h4>
+        <ul>
+            <li> Provide a z-score to find the corresponding p-value. 
+            </li>
+            <li> We find: 
+                <ul>
+                    <li> $P(Z < a)$  (area under the curve to the left of z-score $a$)</li>
+                    <li> $P(Z > a) = 1 - P(Z \leq a)$ (area under the curve to the right of z-score $a$)</li>
+                </ul>
+            <li> If you want to find the p-value for $a < z < b$, 
+                <ul>
+                    <li> Find $P(Z < b)$</li>
+                    <li> Find $P(Z < a)$</li>
+                    <li> Subtract the two probabilities to find $P(a < Z < b) = P(Z < b) - P(Z < a)$</li>
+                </ul>
+            </li>
+           
+        </ul>
+           
+     
+    
+
+
+       
+        <div style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+            padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;"
+        
+            <br>
+            <strong>z-score:</strong> <input type="number" id = "z-value"  step="any" style="width: 100px; border-radius: 5px;"> &nbsp;&nbsp;  &nbsp;&nbsp;  
+             
+            <button  type = "button" onclick = "p_value()" class = "fancy-button" style="width: 200px; border-radius: 5px;">Find p-value</button>       
+            <br> 
+            <div id = "zp-results"> <br> 
+            
+            </div>
+            <img id="zp-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+        </div>
+
+
+
+
+
+    <br></br>
+        <h4 class = "left-aligned">Find z-score for a given p-value:</h4>
+        <ul>
+            <li> Provide a p-value to find the corresponding z-score. 
+            </li>
+            <li> Choose the area type. If the p-value is the area to the left of the z-score 
+                or to the right of the z-score.
+            </z-score></li>
+           
+    </ul>
+
+
+        <div style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+            padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;"
+        
+            <br>
+           <strong>p-value:</strong> <input type="number" id = "p-value"  step="any" style="width: 100px; border-radius: 5px;"> &nbsp;&nbsp;  &nbsp;&nbsp;           
+           <strong>Area Type: </strong> <select id="area-type" name="area_type" style="width:150px; border-radius:5px;">
+            <option value="left">Left Area</option>
+            <option value="right">Right Area</option>
+            </select>
+ &nbsp;&nbsp; <br> <br>
+            <button  type = "button" onclick = "z_value()" class = "fancy-button" style="width: 200px; border-radius: 5px;">Find z-score</button>       
+            <br> 
+            <div id = "zp-results11"> <br> 
+            </div>
+            <img id="zp-plot11" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+            
+        </div>
+      
+
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/normal_distribution.js') }}"></script>
+{% endblock %}
+
+

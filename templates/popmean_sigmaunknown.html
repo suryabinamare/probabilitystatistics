@@ -1,0 +1,231 @@
+{% extends "sidebar.html" %}
+{% block title %}One Population Mean{% endblock %}
+{% block content %}
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+<h2><strong>A Population Mean</strong>
+            <br> (unknown variance)</h2>
+
+
+<h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Calculate confidence Interval (CI) for the population mean, $\mu$</li>
+        <li> Calculate required sample size for a given margin of error and confidence level</li>
+        <li>Perform hypothesis testing for the population mean, $\mu$
+            <ol>
+                <li>If $\mu = \mu_0$, two-tailed test</li>
+                <li>If $\mu < \mu_0$, left-tailed test</li>
+                <li>If $\mu > \mu_0$, right-tailed test</li>
+            </ol>
+        </li>
+            
+    </ul>
+
+
+ <h3 class = "left-aligned">Introduction:</h3>
+<p class = "left-aligned">We consider a population with unknow mean unknown variance. 
+    We estimate the population mean, \(\mu\), using a sample drawn from the population. 
+        Since the population standard deviation, \(\sigma\), is unknown, we use the sample standard deviation, \(s\), to estimate it.
+</p>
+<ol style = "font-family: 'times New Roman', Times, serif; font-size: large; "text-align: left;"> 
+    <li> <b> Parameter Estimation:</b> The sample mean is used to estimate the population mean. It is an unbiased estimator
+        of \(\mu\) with a standard error of \( \frac{\sigma}{\sqrt{n}} \), where \(n\) is the sample size. Sometimes finding a range of 
+    values is more important than a single point estimate. This is done by constructing a confidence interval in which the parameter lies.
+    </li>
+    <li> <b>Hypothesis Testing:</b> We test hypotheses about the population mean using the t-test when \(\sigma\) is unknown. The null hypothesis, \(H_0\), 
+        typically states that the population mean is equal to a specific value, \(\mu_0\). The alternative hypothesis, \(H_a\), 
+        can be two-tailed or one-tailed, depending on the research question.
+       
+
+</ol>
+  
+</div>
+</div>
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+     <h3 class = "left-aligned">Confidence Interval (CI):</h3>
+    <p class = "left-aligned"> Using sample data, we construct (1-\(\alpha\))100% confidence interval for the population mean, \(\mu\).
+        If the significance level, \(\alpha\) is 0.05, then we are (1-0.05)100% = 95% confident that the interval contains the true population mean, \(\mu\).
+        We interpret this as if we were to take many samples and construct confidence intervals for each sample, approximately 95% of those intervals would 
+        contain the true population mean, \(\mu\). <br> <br>
+
+   <b>To construct the confidence interval (two-sided), we use the following steps:</b></p>      
+    <p class = "left-aligned">
+        <ul>
+                <li> $s$ = Sample standard deviation calculated from the sample data. </li>
+                <li> $\bar{x}$ =Sample mean calculated from the sample data. </li>
+                <li> $n$ = Sample size is the number of observations in the sample. </li>
+                <li> $df$ = Degree of freedom, calculated as \(n - 1\). </li>
+                <li> $\alpha$ = Significance level.   </li>
+                <li> $t_{\alpha/2}$ = critical value for $\alpha$. </li>
+        </ul> </p>
+        <p class = "left-aligned">
+       <b> Then, we calculate the confidence interval using the formula:</b></p>
+    <p class = "left-aligned">
+        <ul> 
+            <li> $ \displaystyle CI = \left[\bar{x} - t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}, \quad \bar{x} + t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}\right] $
+             </li>
+            <li> Margin of Error (ME) is given by: <br>
+        $ ME = \displaystyle t_{\alpha/2} \cdot \frac{s}{\sqrt{n}} $   <br>      
+        Thus, the CI can also be expressed as:</li>
+       <li> $\displaystyle CI = \left[\bar{x} - ME, \quad \bar{x} + ME\right] $</li>
+        </ul>
+    </p>
+        
+        
+    <div  id = "ci-result-container" style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+        <h4>Provide the following values</h4>
+        
+
+        <br>
+        <strong> $\bar{x}$ =  </strong><input type = "number"  id = "mu0" value = "0" style="width: 80px; border-radius: 5px;"> &nbsp; &nbsp;&nbsp; &nbsp;
+        <strong> $s$ = </strong><input type = "number"  id = "sigma" value = "1" style="width: 80px; border-radius: 5px;"> &nbsp; &nbsp;&nbsp; &nbsp;
+        df = <input type = "number"  id = "df" value = "29" style="width: 80px; border-radius: 5px;">&nbsp; &nbsp;&nbsp; &nbsp;
+        <strong> $\alpha$ = </strong><input type = "number"  id = "alpha" value = "0.05" style="width: 80px; border-radius: 5px;"> &nbsp; &nbsp;<br><br>
+        <strong> $n$ = </strong><input type = "range" min="1" max="1000" id = "n" value = "30" style="width: 400px;"> 
+            <span id="samplesize">30</span>
+        <br><br>
+        <button  id = "calculate-btn" onclick="calculate_ci_unknown()" class = "fancy-button" style="width: 200px; border-radius: 5px;">Calculate CI and ME</button>
+        
+        <br><br>
+       
+        <p id="ci-result"></p>
+        <img id="ci-plot" src="" style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
+</div>
+</div>
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h3 class = "left-aligned">Hypothesis Testing:</h3>
+    <p class = "left-aligned">We perform hypothesis testing for a population mean when the population standard deviation, \(\sigma\), is unknown.
+        We use the t-test to determine whether to reject or fail to reject the null hypothesis, \(H_0\), based on the sample data.
+        <h4 class = "left-aligned">Provide the following values:</h4>
+        <div>        
+            <ul>
+                <li> \(\bar{x}\) = Sample mean </li> 
+                <li> \(\mu_0\) = Population mean </li>
+                <li> \(n\) = Sample size </li>
+                <li> \(s\) = Sample standard deviation </li>
+                <li> \(\alpha\) = Significance level </li>
+            </ul>
+        </div>
+        <h4 class = "left-aligned">We perform the following testings:</h4>
+        <ol> 
+            <li>Two-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu \neq \mu_0\)</li>
+            </ul>
+            We find the following values for two-tailed test:
+            <ul>
+                <li> Test Statistic, \(T\) = \( \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \) </li>
+                <li> P-value: \( P(t > |T|) \) (area under the curve in both tails beyond \(\pm |T|\))</li>
+                <li>Critical Value: \(\pm t_{\alpha/2}\)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \(\left(\mu_0 - \frac{s}{\sqrt{n}}t_{\alpha/2}, \quad \mu_0 + \frac{s}{\sqrt{n}}t_{\alpha/2}\right)\)</li>
+                <li> Non - rejection Region for \(T\): 
+                    \(\left(-t_{\alpha/2}, \quad t_{\alpha/2}\right)\)</li> </ul>
+
+            <li>Left-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu < \mu_0\)</li>
+            </ul>
+            We find the following values for left-tailed test:
+            <ul>
+                <li> Test Statistic, \(T\) = \( \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \) </li>
+                <li> P-value: \( P(T < t) \) (area under the curve to the left of \(T\))</li>
+                <li>Critical Value: -\( t_{\alpha} \)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \( \left(\mu_0 - \frac{s}{\sqrt{n}}t_{\alpha}, \quad \infty \right) \)</li>
+                <li> Non - rejection Region for \(T\): 
+                    \( \left(-t_{\alpha}, \quad \infty \right) \)</li> </ul>
+
+            <li>Right-tailed Test: </li>
+            <ul class = "left-aligned">
+                <li>\(H_0 : \quad \mu = \mu_0\)</li>
+                <li>\(H_a : \quad \mu > \mu_0\)</li>
+            </ul>
+            We find the following values for right-tailed test:
+            <ul>
+                <li> Test Statistic, \(T\) = \( \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \) </li>
+                <li> P-value: \( P(T > t) \) (area under the curve to the right of \(T\))</li>
+                <li>Critical Value: \( t_{\alpha} \)</li>
+                <li> Non - rejection Region for \(\bar{x}\): 
+                    \( \left( -\infty, \quad \mu_0 + \frac{s}{\sqrt{n}}t_{\alpha} \right) \)</li>
+                <li> Non - rejection Region for \(T\): 
+                    \( \left( -\infty, \quad t_{\alpha} \right) \)</li> </ul>
+        </ol> </p>
+        <p class = "left-aligned">
+            We also visualize the results of hypothesis testing by plotting the sampling distribution of the sample mean under the null hypothesis, \(H_0\). 
+            We shade the rejection region(s) based on the type of test and indicate the position of the sample mean, \(\bar{x}\), on the plot. 
+            This helps us understand how extreme our sample mean is in relation to the null hypothesis and whether it falls within the rejection region.
+   
+    
+
+
+
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+    <h3>Provide the following values to perform hypothesis testing: </h3>
+       
+
+        <br> <br>
+    
+                
+                $\bar{x}$ =  <input type="number" id="sample_mean" value="" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp; &nbsp; &nbsp;
+                $ \mu_0 $ = <input type="number" id="population_mean" value="" style="width: 100px; border-radius: 5px;" required> &nbsp; &nbsp; &nbsp; &nbsp; 
+         
+                $n$  =  <input type="number" id="sample_size" value="" style="width: 100px; border-radius: 5px;" required> <br> <br>
+          
+                $s$ = <input type="number" id="sample_std" value="" style="width: 100px; border-radius: 5px;" required>&nbsp; &nbsp; &nbsp; &nbsp;
+                               
+                
+                $ \alpha $ = <input type="number" id="alpha1" value="" style="width: 100px; border-radius: 5px;" required>&nbsp; &nbsp; &nbsp; &nbsp;
+            
+               $ \text{df} = $ <input type="number" id="df1" value="" style="width: 100px; border-radius: 5px;" required>
+            
+                <br> <br>
+                <label> Test Type: </label>
+                <select name = "Type" id = "Type" required>
+                    <option value="two-tailed" >Two-tailed</option>
+                    <option value="left-tailed" >Left-tailed</option>
+                    <option value="right-tailed" >Right-tailed</option>
+                </select>
+          
+        </br> </br>
+
+      
+            <input type="submit" class = "fancy-button"  onclick="hypothesis_testing_sigmaunknown()" style="width: 200px; border-radius: 5px;">
+
+
+         <br> <br>
+            <p id = 'hypothesis-result'></p> <br>
+        <img id="hypothesis-plot" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+        </div>
+
+      
+    </div>
+</div>
+ </div>
+            
+
+    
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/popmean_unknown.js') }}"></script>
+{% endblock %}

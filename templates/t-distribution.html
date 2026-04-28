@@ -1,0 +1,148 @@
+{% extends "sidebar.html" %}
+{% block content %}
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+                            <h2>t-Distribution: </h2>
+
+
+                            
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">
+
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Compute the p-values for given t-scores and degrees of freedom.</li>
+        <li>Find the t-score corresponding to a given p-value and degrees of freedom when 
+            <ul>
+                <li>when $p$ is the area to the left of the t-score.</li>
+                <li>when $p$ is the area to the right of the t-score.</li>
+            </ul>
+
+        </li>      
+    </ul>
+
+    
+        <h3 class = "left-aligned">Introduction:</h3>
+        <p class = "left-aligned">
+        The t-distribution is like z-distribution, with the density curve that is bell-shaped symmetric with respect to vertical line through 0.
+        The distribution has mean of 0 and stanard deviation of 1. Both tails of the curve extend to infinity. But the tails of 
+        t-distribution are thicker than that of z-distribution, which reflects increased 
+        uncertainty. 
+        </p>
+
+
+
+    <p class = "left-aligned">The area under the density curve is 1. P-value represents the area of a region
+        under the curve which is shaded blue.  t-score is plotted along the horizontal axis as the red dot. 
+        Here, 
+        <ul>
+            <li><b> t-score: </b> This is the value of the t-statistic you want to evaluate. This value is plotted 
+                along the horizontal axis as the red dot. You can find the t-score when you know the P-value and the degrees of freedom (df).
+            </li>
+            <li><b> P-value: </b>This value 
+                    represents the area under the curve to the right of the t-score and is shaded blue in the plot.
+                For \(t_0\), the p-value is given by \(p(t \leq t_0)\). </br>
+                If you want to find the area to the right of \(t_0\), </br>
+                    \(p(t\geq t_0) = 1 - p(t\leq t_0)\)
+            </li>
+        </ul> 
+    </div>
+    <br> <br>
+
+
+    <div  id = "ci-result-container" style = "margin-top: 20px; background-color: aliceblue;
+        padding: 30px; border-radius: 10px; text-align: left; margin:auto; font-size:large"">  
+
+        <h2 class = "left-aligned">Computing Values:</h2>
+        <p class = "left-aligned">
+        This calculator allows you to find the P-value corresponding to a given t-score and degrees of freedom (df), or to find 
+        the t-score corresponding to a given P-value and degrees of freedom (df). </p>
+        <h4 class = "left-aligned" >Find p-value:</h4>
+        <ul>
+            <li>
+                Provide t-score and degree of freedom (df), it calculates two probabiliites:
+                <ul>
+                    <li><b> P(t < t-score) </b>: This is the area under the curve to the left of the t-score. </li>
+                    <li><b> P(t > t-score) </b>: This is the area under the curve to the right of the t-score.  </li>
+                </ul>
+            </li>
+        </ul> <br> <br>
+    <div style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+        <strong>t-score: <input type="number" id="t-score" step="any" style="width: 100px; border-radius: 5px;"> </strong> &nbsp;&nbsp; 
+        <strong>df: <input type="number" id="df" step="any" style="width: 100px; border-radius: 5px;"> </strong> &nbsp;&nbsp; 
+      <br> <br>
+        <button onclick="calculateTDistribution()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Find p-value </button>
+    
+            <br> <br>
+
+            <div id="tp-results"  style="display: grid;place-items: center;"></div>
+            <br> 
+            <img id="t-distribution-plot" src="" style="max-width: 100%; height: auto; margin-top: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    </div>
+
+
+
+
+
+<br> <br>
+
+    <h4 class = "left-aligned" >Find t-value: </h4>
+    <ul>
+        <li>
+            Provide P-value, degree of freedom (df), and select area type. 
+            Here area type means 
+            whether you are looking for the t-score that corresponds to a left tail or right tail probability.
+            It calculates the t-score corresponding to the given P-value and df.
+
+        </li>
+    </ul>
+
+    <div style = "margin-top: 20px; justify-content:center; background-color: rgb(228, 224, 234);
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">
+          <strong>P-value: <input type="number" id="pvalue" step="any" style="width: 100px; border-radius: 5px;"> </strong>
+        &nbsp;&nbsp;   
+        <strong>df: <input type="number" id="DF" step="any" style="width: 100px; border-radius: 5px;"> </strong> &nbsp;&nbsp; 
+       <strong>Area Type:</strong>
+        <select id="area-type" style="border-radius: 5px;width:150px;height:50px;">
+            <option value="left">Left Tail </option>
+            <option value="right">Right Tail </option>
+        </select>
+        <br> <br>
+        <button onclick="calculateTValue()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Find t-value </button>
+            <br> <br>
+        
+        
+            <div id="tp-results1"  style="display: grid;place-items: center;"></div>
+                <br> 
+            <img id="t-distribution-plot1" src="" style="max-width: 100%; height: auto; margin-top: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    
+   
+   
+   
+    </div>
+    <br> <br>
+
+   
+
+
+
+    
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tdistribution.js') }}"></script>
+{% endblock %}

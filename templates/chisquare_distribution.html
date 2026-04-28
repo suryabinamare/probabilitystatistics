@@ -1,0 +1,171 @@
+{% extends "sidebar.html" %}
+{% block content %}
+
+
+
+<div class = "wrapper">
+<div class="container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h1>Chi-square Distribution</h1>
+
+
+    <h3 class = "left-aligned" style = "color: rgb(218, 22, 22);">Learning Objectives:</h3>
+
+    <ul style = "text-align:left; font-size: large;"> 
+        <li>Visualize the density curve of a chi-square distribution for different parameter values.</li>
+        <li>Find the p-value corresponding to a given chi-square value, $\chi^2$, and degree of freedom, df.</li>
+        <li>Find the $\chi^2$ value corresponding to a given p-value and degree of freedom, df.</li>
+            
+    </ul>
+
+
+
+
+
+    <h3 class="left-aligned">Introduction:</h3>
+    <p class="left-aligned">
+        The Chi-square distribution is a special case of the gamma distribution and is 
+        used primarily in hypothesis testing, particularly in tests of independence and goodness of fit. 
+        It is characterized by a single parameter, the degrees of freedom (df), which determines the shape of the distribution. 
+        The Chi-square distribution is right-skewed and takes only non-negative values.
+    </p>
+
+    <ol> 
+        <li><strong>\(\chi^2\) - value:</strong> The value of the Chi-square statistic you want to evaluate. This value 
+            is plotted along the horizontal axis as the red dot.
+        </li>
+        <li><strong>P-value:</strong> The probability of observing a value as extreme as the \(\chi^2\) - value. This value 
+            represents the area under the curve to the right of the \(\chi^2\) - value and is shaded blue in the plot.
+        </li>
+    </ol>
+</div>
+</div>
+
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h3 class = "left-aligned">Shape of the Distribution</h3>
+    <p class = "left-aligned">The shape of the Chi-square distribution is determined by its degrees of freedom (df). 
+        When the degrees of freedom are small, the distribution is strongly skewed to the right, with a long tail extending
+         toward larger values. As the degrees of freedom increase, the curve becomes less skewed, more balanced, and gradually 
+         begins to resemble a normal distribution. </p>
+
+    <p class = "left-aligned">For sufficiently large degrees of freedom, the Chi-square distribution appears nearly symmetric, although it always remains 
+    defined only for non-negative values. In the visualization below, you can compare Chi-square curves for different degrees of
+    freedom and observe how increasing df affects the shape and spread of the distribution.</p>
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+        padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+            <strong>Degrees of Freedom (df): <input type="number" id="df_plot" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+            <br> <br>
+            <button onclick="drawChiSquareDistribution()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Calculate </button>    &nbsp;&nbsp;  &nbsp;&nbsp;
+            <button onclick = "reset1()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Reset </button>
+    </div>
+    <div style="margin-top:20px; text-align: center;">
+        <img id="plot" src="" style="width:600px; border-radius:10px; border:1px solid #ccc; margin-top:15px;"/>
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class = "wrapper">
+<div class="container"  style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+    <h3 class="left-aligned">Find the p-value:</h3>
+    <ul> 
+        <li>Provide \(\chi^2\) - value and degree of freedom (df) to find p-value. The p-value
+            is the area under the curve to the right of the \(\chi^2\) - value and is shaded blue in the plot. </li>
+        </li>
+        
+    </ul>
+  
+    <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+    padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+        <strong>\(\chi^2\): <input type="number" id="chi2-score" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+        <strong>df: <input type="number" id="df" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp; &nbsp;&nbsp;
+        
+        <br> <br>
+        <button onclick="calculateChiSquareDistribution()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Calculate p-value </button>    
+    <br> <br> 
+     
+    <br> 
+    
+        <div id = "chi2-results"> <br> 
+            
+        </div>
+        <img id="chi2_value" src="" style="width:600px; border-radius: 10px; border:1px solid #ccc;">
+        
+    </div>
+
+
+
+
+
+
+
+
+    <br> <br>
+    <h3 class="left-aligned">Find the \(\chi^2\) - value:</h3>
+    <ul>     
+        <li>Provide p-value and degree of freedom (df) to find \(\chi^2\) - value. 
+            The \(\chi^2\) - value is the value along the horizontal axis that corresponds to the given p-value. 
+            It is plotted as a red dot on the curve, and the area to the right of this point (shaded blue) represents the p-value. </li>
+        </li>
+    </ul>
+
+     <div style = "margin-top: 20px; justify-content:center; background-color: aliceblue;
+    padding: 15px; border-radius: 10px; text-align: center; margin: auto; width: fit-content;">  
+        <strong>P-value: <input type="number" id="p-value" step="any" style="width: 100px; border-radius: 5px;"></strong>&nbsp;&nbsp;  &nbsp;&nbsp;
+        <strong>df: <input type="number" id="DF" step="any" style="width: 100px; border-radius: 5px;"></strong> &nbsp;&nbsp;  &nbsp;&nbsp;
+       
+        <br> <br>
+        <button onclick="calculatechi2value()" class="fancy-button" style="width: 200px; border-radius: 5px;"> Calculate \(\chi^2\) </button>    
+    <br> <br> 
+  
+    <br> 
+
+        <div id="chi2-value-results"  style="display: grid;place-items: center;"></div>
+                <br> 
+        <img id="chi2-distribution-plot1" src="" style="max-width: 100%; height: auto; margin-top: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    
+    
+    </div>
+
+
+
+
+
+
+
+
+  
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chisquare_distribution.js') }}"></script>
+{% endblock %}

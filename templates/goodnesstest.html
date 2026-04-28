@@ -1,0 +1,148 @@
+
+
+
+{% extends "sidebar.html" %}
+{% block title %} Goodness of Fit Test {% endblock %}
+{% block content %}
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: larger;">
+
+    <h1>Goodness of Fit Test (Chi-Square)</h1>
+
+
+    <p class = "left-aligned"> A <strong>goodness of fit test</strong> checks whether observed data follow a specific 
+      theoretical distribution. It compares observed frequencies with expected frequencies to determine whether any differences
+      are likely due to random variation. One of the most common methods is the <strong>Chi-square goodness-of-fit test.</strong>
+    </p>
+ 
+        <h3 class = "left-aligned">An example: Is the Die Fair?  </h3>  
+
+        <p class = "left-aligned">
+          We roll a six-sided die 150 times to test whether all sides are equaly likely (each face has 1/6 chances of landing). </p>
+        <h3 class = "left-aligned">Hypotheses:</h3>
+          <ul> 
+            <li>\(H_0\): the die is fair (\(p_1 = p_2 = p_3 = p_4 = p_5 = p_6 = 1/6\))</li>
+            <li> \(H_1\): The die is not fair (at least one probability differs)</li>
+          </ul>
+          <h3 class = "left-aligned">Observed vs Expected Frequencies:</h3>
+            <ul>
+              <li> <strong>Observed:</strong> [23, 26, 23, 21, 31, 26]</li>
+              <li> <strong>Expected (fair die): [25, 25, 25, 25, 25, 25] = 150 rolls </strong> <br> 
+                since \(150 \times \frac{1}{6} = 25.\) 
+              </li>
+            </ul>
+          <h3 class = "left-aligned">Chi-Square Statistic:</h3>
+          <p class = "left-aligned">The test statistic is computed using: <br> <br>
+            \(\displaystyle \chi^2 = \sum \frac{(O-E)^2}{E}\) <br><br>
+            \(\displaystyle \chi^2 = \frac{(23-25)^2}{25} + \frac{(26-25)^2}{25} + 
+            \frac{(23-25)^2}{25}+ \frac{(21-25)^2}{25} + \frac{(31-25)^2}{25} + \frac{(26-25)^2}{25}\) <br> <br>
+            \(\displaystyle \chi^2 = 2.48\)
+          </p>
+          <h3 class = "left-aligned">Decision:</h3>
+          <p class = "left-aligned">At a 5% significance level: </p>
+            <ul>
+              <li>Using Chi-Square distribution with degreee of freedom = k - 1 = 5, <strong>Critical value</strong> = 11.07</li>
+              <li> <strong> P-value </strong> = 0.78</li>
+              <li>If \(\chi^2 > \text{critical value} \rightarrow \text{reject H_0}\)</li>
+              <li>If \(\chi^2 \leq \text{critical value} \rightarrow \text{fail to reject H_0}\)</li>
+            </ul>
+           <p class = "left-aligned">OR </p>
+            <ul>
+              <li> If P-value \(\leq \alpha \rightarrow \text{reject H_0} \)</li>
+              <li> If P-value \(> \alpha \rightarrow \text{fail to reject H_0} \)</li>
+            </ul>
+            <h3 class = "left-aligned">Conclusion: </h3>
+
+            <p class = "left-aligned"> The die is fair. </p>
+
+</div>
+</div>
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: larger;">
+
+<h4 class = "left-aligned">Hypothesis Testing: Goodness of Fit Test:</h4>
+<ul>
+    <li>Null Hypothesis (H0): The observed data follows the expected distribution.</li>
+    <li>Alternative Hypothesis (H1): The observed data does not follow the expected distribution.</li>
+</ul>
+<h4 class = "left-aligned"> Steps: </h4>
+<ol>
+  <li> State the null and alternative hypotheses.</li>
+  <li>Choose a significance level (α).</li>
+  <li> Calculate the expected frequencies = n * p, where n is the total number of observations and p is the probability for each category.</li>
+  <li> Compute the chi-square statistic = Σ((O - E)² / E), where O is the observed frequency and E is the expected frequency.</li>
+  <li> Determine the critical value or p-value.</li>
+  <li> Make a decision to reject or fail to reject the null hypothesis.</li>
+</ol>
+<br><br>
+<p class = "left-aligned"><strong>Enter the observed frequencies and expected distribution below to perform the Chi-square Goodness of Fit Test:</strong></p>
+
+<div id="fitness_test" style="margin-top:20px; background-color:aliceblue;
+     padding:15px; border-radius:10px; text-align:left; margin:auto; width:fit-content;">
+
+  <h5><strong> Expected Distribution &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  Observed Frequency </strong></h5>
+
+  <div class="goodness_test">
+
+    <input type="number" step="any"
+           placeholder="Expected Distribution"
+           class="expected"
+           style="width:200px; border-radius:5px;" />
+
+    &nbsp;&nbsp; 
+
+    <input type="number" step="any"
+           placeholder="Observed Frequency"
+           class="observed"
+           style="width:200px; border-radius:5px;" />
+
+    &nbsp;&nbsp; <br> <br>
+   
+
+    
+  </div>
+  
+  
+</div>
+
+ <button type="button" onclick="addRow()" class="fancy-button"
+        style="width: 200px; border-radius: 5px;">+ Add Row</button><br> <br>
+
+    <label for="alpha"><strong>Select α:&nbsp;&nbsp;</strong></label>
+<input type = "number", step = "any", placeholder = "alpha", id = "alpha"
+           style="width:150px; border-radius:5px;" />
+
+&nbsp;&nbsp;
+
+<button type="button" onclick="calculateGoodnessFit()" class="fancy-button"
+        style="width: 200px; border-radius: 5px;">Calculate Chi-square</button>
+  
+<br><br>
+
+
+    <div id="result"></div>
+    <img id="chi2plot" src="">  
+
+
+    
+</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/goodnessoffit.js') }}"></script>
+{% endblock %}
+
+

@@ -1,0 +1,263 @@
+
+{% extends "sidebar.html" %}
+{% block title %} Linear Regression {% endblock %}
+
+{% block extra_css %}
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .pair { margin-bottom: 10px; }
+  input { width: 70px; margin-right: 5px; }
+  button { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
+  .result { margin-top: 20px; font-weight: bold; color: darkblue; }
+  img { margin-top: 20px; border: 1px solid #ccc; max-width: 100%; }
+</style>
+{% endblock %}
+
+
+
+
+
+{% block content %}
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+  <h3>Linear Regression: Descriptive Approach</h3>
+<p class = "left-aligned">
+  
+    <strong>Linear regression</strong> is a statistical method used to model the relationship between a dependent variable and one or more 
+    independent variables. It assumes a linear relationship, meaning the change in the dependent variable is proportional 
+    to the change in the independent variable(s). In its simplest form-simple linear regression-it fits a straight line to
+     the data to predict outcomes. This technique is widely used in data analysis and machine learning for tasks like 
+     forecasting, trend analysis, and understanding variable relationships.
+One of the key aspects of linear regression is the calculation of the best-fit line, which minimizes the sum of the squares 
+of the vertical distances (residuals) between the observed data points and the line itself. This method is known as 
+"Ordinary Least Squares" (OLS).
+Suppose the dataset is \({(x_1,y_1 ),(x_2,y_2 ),…,(x_n,y_n )}\), where \(x\) is the predictor variable and y the response variable. 
+The equation of the best-fit line can be expressed as
+\[\hat{y}=mx+b,\]
+where \(m\) is the slope and b is the y-intercept. The sample data points \(( x_i,y_i )\) and predicted data points \(( x_i,\hat{y}_i )\)
+ are plotted as blue and red respectively below. For each \(x_i\), the error is \((y_i-\hat{y}_i )\), which is the vertical distance 
+ between red dot and blue dot. Since some blue dots lie above the line, while others lie below the line, the error could
+  be positive as well as negative.
+
+
+
+To account negative errors, we take the sum of squares of all errors, which is denoted by SSE.
+
+\[
+\begin{aligned}
+\mathrm{SSE} & =\left(y_{1}-\hat{y}_{i}\right)^{2}+\left(y_{2}-\hat{y}_{2}\right)^{2}+\cdots+\left(y_{n}-\hat{y}_{n}\right)^{2}=\sum_{i=1}^{n}\left(y_{i}-\hat{y}_{n}\right)^{2} \\
+& =\sum_{i=1}^{n}\left(y_{i}-\left(m x_{i}+b\right)\right)^{2} \\
+& =\sum_{i=1}^{n}\left(y_{i}-m x_{i}-b\right)^{2}
+\end{aligned}
+\]
+
+SSE is a function of two variables; $m$ and $b$. Note that $x_{i}$ and $y_{i}$ are given data points. Using multivariate calculus, we take partial derivatives of $S S E$ and set each to zero and solve for slope and intercept.
+
+\[
+\begin{aligned}
+& \text { Partial derivative w.r.t } m=\frac{\partial S S E}{\partial m}=\sum_{i=1}^{n} 2\left(y_{i}-m x_{i}-b\right) . x_{i} \\
+& \text { Partial derivative w.r.t } b=\frac{\partial S S E}{\partial b}=\sum_{i=1}^{n} 2\left(y_{i}-m x_{i}-b\right)(-1)
+\end{aligned}
+\]
+
+Setting both partial derivatives to zero and after simplifying, we get the followng values.
+
+<ul>
+  <li> Mean of \(x: \bar{x}=\frac{1}{n} \sum_{i=1}^{n} x_{i}\)</li>
+  <li> Mean of \(y: \bar{y}=\frac{1}{n} \sum_{i=1}^{n} y_{i}\)</li>
+  <li> \(S_{x x}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2} = \displaystyle \sum_{i=1}^nx_i^2 - \frac{\left(\sum_{i=1}^nx_i \right)^2}{n}\)</li>
+  <li> \(S_{y y}=\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2} = \displaystyle \sum_{i=1}^ny_i^2 - \frac{\left(\sum_{i=1}^ny_i \right)^2}{n}\)</li>
+  <li> \(S_{x y}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)
+       = \displaystyle \sum_{i=1}^nx_iy_i - \frac{\left(\sum_{i=1}^nx_i \right)\left(\sum_{i=1}^ny_i \right)}{n}\)</li>
+  <li> Slope: \(m=\frac{S_{x y}}{S_{x x}}\)</li>
+  <li> Intercept: \(b=\bar{y}-m \bar{x}\)</li>
+  <li> Coefficient of Determination: \(R^{2}=\frac{S_{x y}^{2}}{S_{x x} S_{y y}}\)</li>
+  <li> Correlation Coefficient: \(r=\sqrt{R^{2}}\)</li>
+  <li> Standard Error of Estimate, \(s_e = \displaystyle \sqrt{\frac{SSE}{n-2}}\) </li>
+</ul>
+
+
+</p>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+  <h3 class = "left-aligned">Linear Regression Data Input</h3>
+  <p class = "left-aligned">
+    You can input your data for linear regression analysis in two ways: either by manually entering the \(x\) and \(y\) 
+    values or by uploading an Excel file containing the data. <br><br>
+    1. <strong>Manual Input:</strong> Enter your \(x\) and \(y\) values in the provided fields. You can add or remove 
+    pairs of values as needed. Once you've entered all your data, click the "Upload!" button to submit.<br><br>
+    2. <strong>File Upload:</strong> Alternatively, you can upload an Excel file (.csv, .xlsx, .xls) that contains 
+    your data. Ensure that the first column contains the \(x\) values and the second column contains the \(y\) values. 
+    After selecting your file, click the "Upload!" button to submit.<br><br>
+    After submitting your data using either method, the application will display the uploaded thata,  process the information, and provide you with various outputs, including a scatter plot, regression equation, regression plot, residuals plot, and Q-Q plot.
+
+  <div class="two-columns">
+
+    <!-- Column 1: Manual x, y input -->
+    <div class="column" style = "margin-right:50px; border-radius: 10px;background-color:aliceblue ;">
+      <h4>Type values of \(x\) and \(y\)</h4>
+
+      <div id="pairs">
+        <div class="pair">
+          <input type="number" step="any" class="x" placeholder="x1" style="width: 150px; border-radius:5px;">
+          <input type="number" step="any" class="y" placeholder="y1" style="width: 150px; border-radius:5px;">
+        </div>
+      </div>
+        <br>
+      <button type="button" onclick="addPair()" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">+ Add More</button>
+      <button type = "button" onclick = "removePair()" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">- Remove</button>
+      <br><br> 
+
+      <button type="button" onclick="submitXY()" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Upload!</button>
+    </div>
+
+     
+    <!-- Column 2: File upload -->
+    <div class="column" style = "margin-right:50px; border-radius: 10px;background-color: aliceblue;">
+      <h4> Upload an excel file (first col x, second col y)</h4>
+
+      <input type="file" id="fileInput" accept=".csv, .xlsx, .xls" style="display:block; margin: 0 auto; border-radius:5px;">
+      
+      <button type="button" onclick="uploadFile()" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Upload!</button> <br>
+      <div id="loading" style="display:none; color: blue; font-weight:bold;">
+                Uploading / Processing...
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+   <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left">
+    <h4 class = "left-aligned"> Display the data: </h4>
+    <p class = "left-aligned">
+     The data that has been uploaded and is shown below.  <br> <br>
+    <button onclick = "showValues('data')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Data</button>
+    <div id = "displayData"></div>  </p>
+    <br> 
+  </div>
+
+
+
+
+
+  <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left">
+
+
+    <h4 class = "left-aligned"> Scatter Plot: </h4>
+    <p class = "left-aligned">
+      The scatter plot displays the relationship between the independent variable (x) and the dependent variable (y).<br>
+      Each blue dot represents an observed data point, while the red line indicates the best-fit linear regression line.<br>
+      The proximity of the blue dots to the red line reflects how well the linear model fits the data.
+     <br> <br>
+    <button onclick = "showValues('scatterplot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Scatter Plot</button>
+    <div id = "scatterPlot" style = "margin-left:45px;"></div>  </p>
+    <br> 
+  </div>
+
+
+
+
+
+  <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+
+    <h4 class = "left-aligned"> Regression Equation: </h4>
+    <p class = "left-aligned">
+      The regression equation represents the linear relationship between the independent variable (x) and the dependent <br>
+       variable (y). It is expressed in the form \(\hat{y} = mx + b\), where \(m\) is the slope and \(b\) is the y-intercept.<br>
+      This equation allows us to predict the value of y for any given value of x based on the fitted linear model.
+      <br> <br>
+      <button onclick = "showValues('equations')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Regression Equation</button>
+      <div id="regressionEquation" style = "margin-left:45px;"></div>
+    </p> <br>
+  </div>
+
+
+
+
+
+
+  <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+
+    <h4 class = "left-aligned"> Regression Plot: </h4>
+    <p class = "left-aligned">
+      The regression plot illustrates the fitted linear regression line (in red) over the observed data points (in blue).<br>
+      This visualization helps to assess how well the linear model captures the trend in the data. A good fit is indicated <br>
+       by data points closely clustering around the regression line.
+     <br><br>
+    <button onclick = "showValues('regressionplot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Regression Plot</button>
+      <div id="regressionPlot" style = "margin-left:45px;"></div> <br> <br> 
+      </p>
+  </div>
+
+
+
+
+
+
+   <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+
+    <h4 class = "left-aligned"> Residuals Plot: </h4>
+    <p class = "left-aligned">
+      The residuals plot displays the residuals (the differences between observed and predicted values) against the <br>
+      independent variable (x).This plot is used to assess the adequacy of the linear regression model. Ideally, the residuals<br>
+       should be randomly scattered around zero, indicating that the linear model is appropriate for the data.
+    <br> <br>
+    <button onclick = "showValues('residualsplot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Residuals Plot</button>
+      <div id="residualsPlot" style = "margin-left:45px;"></div> <br> <br> 
+    </p>
+  </div>
+
+
+
+   <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+  background-color: aliceblue; padding:15px; border-radius:10px; text-align:left;">
+
+    <h4 class = "left-aligned"> Q-Q Plot: </h4>
+    <p class = "left-aligned">
+      The Q-Q (Quantile-Quantile) plot compares the quantiles of the residuals from the linear regression model to the <br>
+      quantiles of a normal distribution. This plot is used to assess whether the residuals are normally distributed,<br>
+      which is an assumption of linear regression. If the residuals follow a normal distribution, the points in the Q-Q plot <br>
+      will approximately lie along a straight diagonal line.
+    <br> <br>
+    <button onclick = "showValues('qqplot')" style = "margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show Q-Q Plot</button>
+      <div id="qqPlot" style = "margin-left:45px;"></div></p> <br>
+  </div>
+
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/linear.js') }}"></script>
+{% endblock %}
+
+
+

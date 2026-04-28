@@ -1,0 +1,446 @@
+{% extends "sidebar.html" %}
+{% block title %}ANOVA (one-way){% endblock %}
+
+
+{% block extra_css %}
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .pair { margin-bottom: 10px; }
+  input { width: 70px; margin-right: 5px; }
+  button { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
+  .result { margin-top: 20px; font-weight: bold; color: darkblue; }
+  img { margin-top: 20px; border: 1px solid #ccc; max-width: 100%; }
+</style>
+
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+
+<style>
+        h1 {
+            color: #333;
+        }
+        #controls, #controls1, #controls2, #controls3 {
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+        }
+        button {
+            padding: 10px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        #statsBtn, #boxplotBtn, #anovaBtn, #uploadBtn {
+            padding: 10px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px 15px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .data-table, .stats-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .data-table th, .data-table td,
+        .stats-table th, .stats-table td {
+            border: 1px solid #aaa;
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table th {
+            background: #e8f1ff;
+        }
+        .stats-table th {
+            background: #fff1e6;
+        }
+        #output, #output1 , #output2, #output3 {
+            margin-top: 20px;
+            background: #eaeaed;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        #csvFile {
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+
+
+
+
+
+
+
+<div class = "wrapper">
+
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;"> 
+    <h2> <strong>Analysis of Variance (ANOVA): </strong></h2>
+    <h4 class = "left-aligned"><strong>Introduction</strong></h4>
+    <p class = "left-aligned">
+        To compare the means of a single quantitative variable across several populations 
+        (levels of one factor), we analyze how the observed sample data vary. This comparison 
+        is based on two distinct sources of variation. The first is the <strong>variation between the 
+        sample means</strong>, which reflects differences among the populations. The second is the <strong>variation
+         within each sample</strong>, which captures the natural variability among observations inside the 
+         same population.
+
+If the variation between sample means is large relative to the variation within samples, 
+this provides evidence that the population means are not all equal. This comparison is 
+summarized by the <strong>F-statistic</strong>, which is defined as the ratio of the mean square due to between-group 
+variation to the mean square due to within-group variation.
+
+A large value of the F-statistic suggests that the observed differences among sample means are unlikely 
+to be due to random sampling variation alone. Under the null hypothesis that all population means are
+ equal, the F-statistic follows an F-distribution, with degrees of freedom determined by the number 
+ of groups and the total sample size. We therefore test the following hypotheses
+    </p>
+</div>
+</div>
+
+
+
+
+
+<div class = "wrapper">
+    <div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;"> 
+        <h4 class = "left-aligned"><strong>Hypothesis Testing:  </strong></h4>
+        <ul> 
+            <li>
+        <p style = "text-align: left;"> <h5>We state the hypothesis as: </h5> 
+            
+        \(
+           \displaystyle H_0: \ \mu_1 = \mu_2 = \dots = \mu_k \) <br>
+        \(  
+            H_a: \ \text{Not all means are the same}
+            \)
+            </p></li>
+        Where \(\mu_1, \mu_2, \dots, \mu_k\) are population means.
+       
+            A statistically significant F-test provides evidence against the null hypothesis, indicating
+             that at least one group mean is different. However, ANOVA does not identify which specific
+              means differ; additional post hoc tests (such as Tukey’s HSD) are required for that purpose.
+            <h5>Formula for test statistic F:</h5>
+        <p class = "left-aligned">
+         <li> Compute the following quantities: 
+        <ul>
+            <li> \(k\) = number of populations.</li>
+            <li> Sample sizes: \(n_1, n_2, \dots, n_k\) </li>
+            <li> Sample means: \(\bar{x}_1, \bar{x}_2, \dots, \bar{x}_k\) </li>
+            <li> Sample standard deviations: \(s_1, s_2, \dots, s_k\) </li>
+            <li> \(n = n_1 + n_2 + \dots + n_k\) = total number of observations. </li>
+            <li> \(\bar{x}\) = mean of all observations of all samples (also called grand mean). <br>
+             \(\bar{x} =\displaystyle \frac{\text{sum of all sample values}}{n_1 + n_2 + \dots + n_k}\) <br> 
+             or <br>
+                \(\bar{x} = \displaystyle \frac{n_1\bar{x}_1 + n_2\bar{x}_2 + \dots + n_k\bar{x}_k}{n_1 + n_2 + \dots +n_k} \)</li>
+        </ul>
+        </p>
+    
+        
+       <h4 class = "left-aligned"> We compute two variations.</h4>
+        <ol class = "left-aligned">
+            <li> 
+                <b> Variation between sample means: <br> </b> \( SSTR = n_1(\bar{x}_1 - \bar{x})^2 + n_2(\bar{x}_2 - \bar{x})^2 + 
+                \dots + n_k(\bar{x}_k - \bar{x})^2  = \displaystyle \sum_{i=1}^kn_i(\bar{x}_i-\bar{x})^2\) <br>
+                where each square term measures how far a sample mean is from \(\bar{x}\). 
+            </li>
+            <li>
+                <b>Variation within samples: <br> </b> \(SSE = (n_1-1)s_1^2 + (n_2-1)s_2^2 + \dots + (n_k-1)s_k^2 =\displaystyle \sum_{i=1}^k(n_i-1)s_k^2\)
+            </li>
+            <li> We divide \(SSTR\) and \(SSE\) by their respective degree of freedom, \(k-1\) and \(n-k\) respectively. <br>
+                \(MSTR =\displaystyle \frac{SSTR}{k-1} \) <br>
+                 \( MSE =\displaystyle \frac{SSE}{n-k}\)
+            </li>
+            <li> Test statistic, \( F = \displaystyle \frac{MSTR}{MSE}\).  
+                <ul>
+                    <li> If all sample means are about the same, SSTR is small, and so is MSTR. So F is small.</li>
+                    <li> If sample means are far apart, SSTR is big, and hence F is big. </li>
+                    <li> So bigger F may indicate that means are not same while smaller F shows means are same.</li>
+                </ul>
+            </li>
+            <li> Degree of freedom: deg of num = \(k-1\), deg of deno = \(n-k\). </li>
+            <li> Significance level: \(\alpha\) (commonly used values are 0.01, 0.05, and 0.10). </li>
+            <li> P-value: P-value = P(\(F >\) test statistic F) with deg of num = \(k-1\) and deg of deno = \(n-k\). </li>
+        </ol>
+        </li>
+        <li>
+            <h5>Decision Rule:</h5>
+            <ul>
+                <li> If the test statistic F is greater than the critical value, we reject the null hypothesis. </li>
+                <li> If the P-value is less than or equal to \(\alpha\), we reject the null hypothesis. </li>
+                <li> Otherwise, we fail to reject the null hypothesis. </li>
+            </ul>
+        </li>
+        </ul>
+     </div>
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+  <h3 class = "left-aligned"> <b> An Example (Laptop Battery Life).</b> </h3>
+    <p class = "left-aligned">Consumer Reports publishes reviews and comparisons of products based on results from its laboratory. 
+    Data from their website gave the following table for battery life, in hours, for sample of laptops made by four different
+    computer companies. The four brands are APPle, Dell, Samsung, and Toshiba, but we have 
+    not used the names and have permuted the order. </p>
+    <table class = "fancy-table">
+        
+        <thead>
+            <tr>
+                <th> Brand A</th>
+                <th> Brand B</th>
+                <th> Brand C</th>
+                <th> Brand D</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>7.25</td><td>12</td><td>11.5</td><td>8</td></tr>
+            <tr><td>9.5</td><td>7.25</td><td>9.5</td><td>7.5</td></tr>
+            <tr><td>6.25</td><td>11.75</td><td>10</td><td>5.5</td></tr>
+            <tr><td>8</td><td>15</td><td>5</td><td>4.75</td></tr>
+            <tr><td>8.25</td><td>8.5</td><td>9.5</td><td>6.25</td></tr>
+            <tr><td>10.25</td><td>8.75</td><td>5.25</td><td>6</td></tr>
+            <tr><td>6.25</td><td>10</td><td>9.75</td><td>4.75</td></tr>
+            <tr><td>5.75</td><td>10.25</td><td>8.25</td><td>4.5</td></tr>
+            <tr><td> </td><td> </td><td>5.25 </td><td> </td></tr>
+            <tr><td> </td><td> </td><td>11.5 </td><td> </td></tr>
+        </tbody>
+    </table>
+     </p>  
+    <p>
+        <button class =  onclick="downloadTableAsCSV()">Download CSV</button>
+    </p>
+    <p class = "left-aligned">
+    At the 5% significance level, do the data provide sufficient evidence to conclude that a difference exists in mean battery life 
+    among the four brands? </p>
+   
+    <h3 class = "left-aligned"><b>Solution:</b></h3>
+    
+     <ol> <li> We state the hypotheses: <br> 
+     
+        \(H_0 : \mu_A =  \mu_B = \mu_C = \mu_D\) (average battery life is same for all brands) </br>
+        \(H_a\): Average battery life is not the same for all brands</li>
+        <li> We choose the significance level \(\alpha = 0.05\).</li>
+        <li> We compute the test statistic F using the sample data as follows:
+            <ul> 
+                <li> Sample means: \(\bar{x}_A = 7.6875\), \(\bar{x}_B = 10.4375\), 
+                    \(\bar{x}_C = 8.5500\), \(\bar{x}_D = 5.90625\) </li>
+                <li> Sample standard deviations: \(s_A = 1.6188\), \(s_B = 2.4485\), 
+                    \(s_C = 2.5215\), \(s_D = 1.3020\) </li>
+                <li> Sample sizes: \(n_A = 8\), \(n_B = 8\), \(n_C = 10\), \(n_D = 8\) </li>
+                <li> Total number of observations: \(n = n_A + n_B + n_C + n_D = 34\) </li>
+                <li> Grand mean: \(\bar{x} = \displaystyle \frac{(8)(7.6875) + (8)(10.4375) + (10)(8.55) + (8)(5.90625)}{34} = 8.1691\) </li>
+                <li> Variation between sample means: <br> 
+                    \( 
+                    \displaystyle SSTR = 8(7.6875 - 8.1691)^2 + 8(10.4375 - 8.1691)^2 + 10(8.55 - 8.1691)^2 + 8(5.90625 - 8.1691)^2 = 85.435
+                    \)
+                </li>
+                <li> Variation within samples: <br>
+                    \(
+                    SSE = (8-1)(1.6188)^2 + (8-1)(2.4485)^2 + (10-1)(2.5215)^2 + (8-1)(1.3020)^2 = 129.405
+                    \)
+                </li>
+                <li> Degree of freedom: \(df_{num} = k-1 = 4-1 = 3\), \(df_{deno} = n-k = 34-4 = 30\) </li>
+                <li> Mean squares: \(MSTR = \displaystyle \frac{SSTR}{k-1} =\displaystyle \frac{85.435}{3} = 28.4783\), 
+                    \(MSE =\displaystyle \frac{SSE}{n-k} =\displaystyle \frac{129.405}{30} = 4.3135\) </li>
+                <li> Test statistic: \(F =\displaystyle \frac{MSTR}{MSE} = \displaystyle \frac{28.4783}{4.3135} = 6.6022 \) </li>
+                <li> P-value = 0.001471, use the calculator above. </li>
+            </ul>    
+        </li>
+        <li> We find the critical value [for \(\alpha = 0.05\), deg of num = 3, and deg of deno = 30] = 2.9223 </li>
+        
+        <li> <h5 style = "text-align:left;"> Conclusion: </h5>
+            <ul>
+                <li> Since Test statistic of 6.6022 is larger than the critical value of 2.9223, we reject the null hypothesis
+                    and condlude that all means are not the same. So, average battery line is not the same.  </li>
+                    or 
+                <li> Since P-value of 0.001471 is smaller than the significance level of 0.05, we reject the null
+                    hypothesis and conclude that the average battery life is not the same.  </li>
+            </ul>
+        </li>
+    </ol>
+   
+   </div> 
+</div>
+
+
+
+
+<div class = "wrapper">
+<div class = "container" style = "font-family: 'times New Roman', Times, serif; font-size: large;">
+
+
+    <h4 class = "left-aligned"><strong>Practice Examples:</strong></h4>
+    <p class = "left-aligned"> Below you can upload your own CSV file that contains the sample data and perform ANOVA test.
+    Make sure your CSV file is formatted correctly, with each column representing a different group and each
+    row representing observations within those groups. Missing values should be left blank.
+    </p>
+    
+        <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+            <h3 class = "left-aligned">Upload your CSV/xlsx/xls file</h3>
+            <p class = "left-aligned">Click on the link to upload the excel file containing the sample data. 
+                Make sure that each column is a sample data from a population. Click 'Upload' to upload the 
+                file. Follow the links provided below to process and analyze the data.  
+            </p>
+            <input type="file" id="csvFile" style="margin-left: 45px; border-radius:5px; width:300px;" accept=".csv ,.xlsx,.xls">
+            <button id="uploadBtn" onclick = "uploadCSV()" style = "margin-left:45px; margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Upload CSV</button>
+            
+            <div id="loading" style="display:none; color: blue; font-weight:bold;">
+                Uploading / Processing...
+            </div>
+
+<div id="result"></div>
+        </div>
+
+
+
+        <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+            <h3 class = "left-aligned">Display the file:</h3>
+            <p class = "left-aligned">Click the button to view the uploaded file.</p>
+            <button onclick = "calculateAnova('display_file')" style = "margin-left:45px;margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Display Values!</button>
+            <div id="fileOutput"></div>
+        </div>
+        
+
+
+        
+        <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+            <h3 class = "left-aligned">Compute Statistical Values: </h3>   
+            <p class = "left-aligned"> Using the uploaded sample data, it computes the related statistical values.
+                Sample sizes, sample means, and sample standard deviations are computed and displayed. 
+                These values are required to find F-Value. 
+                
+            </p>    
+            <button onclick = "calculateAnova('stat_values')" style = "margin-left:45px;margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Display Values!</button>
+            <div id="statOutput"></div>
+        </div>
+        
+
+
+        <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+            <h3 class = "left-aligned">Sample Means and the Grand Mean:</h3> 
+            <p class = "left-aligned">Sample means and the grand mean are plotted along a horizontal line.
+                This graph helps to visualize the deviations of each sample mean from grand mean, which 
+                contribute to F-value, farther away sample means from the grand mean, bigger the F-value. 
+            </p>     
+            <button id="boxplotBtn" onclick = "calculateAnova('boxplot')" style = "margin-left:45px;margin-right:10px;background-color: #95cfdd; border-radius: 5px;">Show the Plot</button>
+            <div id="boxplotOutput" style = "margin-left:45px;"></div>
+        </div>
+        
+        
+
+
+
+       <div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+            <h3 class = "left-aligned">Test Statistic (F-Value) and P-value: </h3>   
+            <p class = "left-aligned"> The table below lists various computed values from the sample data. 
+                It computes the MSTR, MSE, degrees of freedom, the test statistic (F-value), P-value, etc. 
+            </p>         
+            <button id="anovaBtn" onclick = "calculateAnova('anova')" style = "margin-left:45px;margin-right:10px;background-color: #95cfdd; border-radius: 5px;">F-Value</button>
+            <div id="anovaOutput"></div>
+        </div>   
+        
+    
+
+
+
+
+
+
+
+<div  style="margin-top:20px; margin-bottom: 20px;  margin-left:200px; margin-right:200px; 
+             background-color: aliceblue; padding:15px; border-radius:10px; text-align:left; ">
+    <h3 class = "left-aligned">Find critical value: </h3>
+    <p class = "left-aligned">It calculates the critical value for F-distribution required to perform 
+        hypothesis testing. Enter the degree of numerator and degree of denominator that you found above
+        and the significance level, \(\alpha\). The critical value and a density plot are displayed. 
+        The plot also indicates the rejection rejection. If the test statistic falls in the 'rejection region', 
+        reject the null hypothesis. 
+    </p>
+        <label for = "field1" style = "margin-left:45px;"> Deg of Numerator </label> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<label for = "field2"> Deg of Denominator</label> <br> 
+        <input type="number" id="field1" name="df_num" min = "1" style="margin-left:45px; width: 150px; border-radius:5px;">   &nbsp;&nbsp;    
+        <input type="number" id="field2" name="df_deno" min = "1" style="width: 150px; border-radius:5px;" ><br> <br>
+        <label for = "field3" style = "margin-left:45px;">Sig Level \(\alpha\)</label> <br>
+        <input type="number" id="field3" name="alpha" step = "0.001" style="margin-left:45px; width: 150px; border-radius:5px;">
+            &nbsp;&nbsp;                
+        <button onclick = "findFvalue()" style = "margin-right:45px;background-color: #95cfdd; border-radius: 5px;">Find F-Value </button>
+
+            
+
+
+        <div id="fValueOutput" style = "margin-left:45px;"></div> <br>
+        <div id="fPlotOutput" style = "margin-left:45px; border-radius: 10px;"></div>
+
+</div>   
+</div>
+  
+  
+
+
+  
+
+
+    
+   
+
+        
+        
+
+        </br> </br></br> </br></br> </br>
+
+    
+       
+
+{% endblock %}
+
+
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/anova.js') }}"></script>
+{% endblock %}
+
+
+
+<script>
+MathJax = {
+  tex: {
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  },
+  chtml: { linebreaks: { automatic: true, width: "container" } }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+

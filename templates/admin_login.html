@@ -1,0 +1,16 @@
+{% extends "sidebar.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+    <title>Admin Login</title>
+
+<div class = "container">
+<form method="post">
+  <input name="username" placeholder="Username" style="width: 300px; border-radius: 5px;"> <br> <br>
+  <input name="password" type="password" placeholder="Password" style="width: 300px; border-radius: 5px;">
+  <br> <br> 
+  <button type="submit" class = "fancy-button" style="width: 200px; border-radius: 5px;">Login</button>
+</form>
+</div>
+
+
+{% endblock %}
