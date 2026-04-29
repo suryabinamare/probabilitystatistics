@@ -1,7 +1,7 @@
 import base64
 
 import io
-from turtle import color
+#from turtle import color
 from flask import Flask, request, Blueprint, render_template, current_app, jsonify
 import os
 import pandas as pd 
